@@ -1,0 +1,20 @@
+{
+  "name": "desafio-xp",
+  "version": "1.0.0",
+  "description": "Repositório destinado ao versionamento do código da aplicação do desafio de back-end da turma XP.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlanFernandes86/desafio-xp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlanFernandes86/desafio-xp/issues"
+  },
+  "homepage": "https://github.com/AlanFernandes86/desafio-xp#readme"
+}
