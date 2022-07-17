@@ -2,10 +2,10 @@
   "name": "desafio-xp",
   "version": "1.0.0",
   "description": "Repositório destinado ao versionamento do código da aplicação do desafio de back-end da turma XP.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "npm run build && node ./dist/index.js",
-    "dev": "tsnd src/index.ts",
+    "start": "npm run build && node ./dist/app.js",
+    "dev": "tsnd src/app.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,12 +20,12 @@
   "devDependencies": {
     "@types/express": "4.17.13",
     "@types/jsonwebtoken": "8.5.8",
-    "@types/node": "16.11.31",
+    "@types/node": "^16.11.45",
     "@typescript-eslint/eslint-plugin": "^5.30.6",
     "@typescript-eslint/parser": "^5.30.6",
     "eslint": "^8.20.0",
     "nodemon": "2.0.14",
-    "ts-node-dev": "1.1.8",
+    "ts-node-dev": "^1.1.8",
     "typescript": "4.4.3"
   },
   "repository": {
