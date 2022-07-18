@@ -4,8 +4,8 @@
   "description": "Repositório destinado ao versionamento do código da aplicação do desafio de back-end da turma XP.",
   "main": "app.js",
   "scripts": {
-    "start": "npm run build && node ./dist/app.js",
-    "dev": "tsnd src/app.ts",
+    "start": "npm run build && node ./dist/server.js",
+    "dev": "tsnd src/server.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
