@@ -1,7 +1,7 @@
-node_modules/
+node_modules
 tests/
-.env
 .git
+.env
 README.md
 jest.*
 .eslint*
