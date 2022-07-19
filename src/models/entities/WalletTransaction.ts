@@ -1,8 +1,13 @@
 import { 
   BaseEntity, Entity, 
   Column, PrimaryGeneratedColumn,
-  CreateDateColumn, UpdateDateColumn, ManyToOne,
+  CreateDateColumn, UpdateDateColumn,
+  ManyToOne, OneToOne,
+  JoinColumn,
 } from 'typeorm';
+import { AccountTransaction } from './AccountTransaction';
+import { Client } from './Client';
+import { Stock } from './Stock';
 import { Wallet } from './Wallet';
 
 @Entity('WalletTransaction')
@@ -23,6 +28,13 @@ export class WalletTransaction extends BaseEntity {
 
   @ManyToOne(() => Wallet, (wallet) => wallet.walletTransactions)
   wallet!: Wallet;
+
+  @ManyToOne(() => Stock, (stock) => stock.walletTransactions)
+  stock!: Stock;
+
+  @OneToOne(() => AccountTransaction)
+  @JoinColumn() 
+  accountTransaction?: AccountTransaction;
 
   @CreateDateColumn()
   createdAt!: Date;

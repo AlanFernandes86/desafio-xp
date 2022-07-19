@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import { Account } from './entities/Account';
 import { AccountTransaction } from './entities/AccountTransaction';
 import { Client } from './entities/Client';
+import { Stock } from './entities/Stock';
 import { Wallet } from './entities/Wallet';
 import { WalletTransaction } from './entities/WalletTransaction';
 
@@ -19,6 +20,7 @@ class MySqlDataSource {
       AccountTransaction,
       Wallet,
       WalletTransaction,
+      Stock,
     ],
     synchronize: true
   });
