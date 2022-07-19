@@ -1,4 +1,7 @@
 import { DataSource } from 'typeorm';
+import { Account } from './entities/Account';
+import { AccountTransaction } from './entities/AccountTransaction';
+import { AccountTransactionType } from './entities/AccountTransactionType';
 import { Client } from './entities/Client';
 
 class MySqlDataSource {
@@ -11,6 +14,9 @@ class MySqlDataSource {
     database: process.env.DB_NAME,
     entities: [
       Client,
+      Account,
+      AccountTransaction,
+      AccountTransactionType,
     ],
     synchronize: true
   });
