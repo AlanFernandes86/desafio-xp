@@ -1,7 +1,7 @@
 import { 
   BaseEntity, Entity, 
   Column, PrimaryGeneratedColumn,
-  CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany,
+  CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, JoinColumn,
 } from 'typeorm';
 import { AccountTransaction } from './AccountTransaction';
 import { Client } from './Client';
@@ -16,7 +16,8 @@ export class Account extends BaseEntity {
   })
   balance!: number;
 
-  @OneToOne(() => Client, (client) => client.account) 
+  @OneToOne(() => Client)
+  @JoinColumn() 
   client?: Client;
 
   @OneToMany(() => AccountTransaction, (accountTransaction) => accountTransaction.account)

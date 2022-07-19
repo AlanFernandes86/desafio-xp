@@ -1,9 +1,11 @@
 import { 
   BaseEntity, Entity, 
   Column, PrimaryGeneratedColumn,
-  CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn,
+  CreateDateColumn, UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
 import { Account } from './Account';
+import { Wallet } from './Wallet';
 
 @Entity('Client')
 export class Client extends BaseEntity {
@@ -21,9 +23,11 @@ export class Client extends BaseEntity {
   @Column()
   password!: string;
 
-  @OneToOne(() => Account)
-  @JoinColumn()
+  @OneToOne(() => Account, (account) => account.client)
   account!: Account;
+
+  @OneToOne(() => Wallet, (wallet) => wallet.client)
+  wallet!: Wallet;
 
   @CreateDateColumn()
   createdAt!: Date;

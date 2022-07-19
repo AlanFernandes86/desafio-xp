@@ -3,8 +3,8 @@ import {
   Column, PrimaryGeneratedColumn,
   CreateDateColumn, UpdateDateColumn, ManyToOne,
 } from 'typeorm';
+import { AccountTransactionTypes } from '../enum/AccountTransactionTypes';
 import { Account } from './Account';
-import { AccountTransactionType } from './AccountTransactionType';
 
 @Entity('AccountTransaction')
 export class AccountTransaction extends BaseEntity {
@@ -19,8 +19,11 @@ export class AccountTransaction extends BaseEntity {
   @ManyToOne(() => Account, (account) => account.accountTransactions)
   account!: Account;
 
-  @ManyToOne(() => AccountTransactionType, (accountTransactionType) => accountTransactionType.accountTransactions)
-  accountTransactionType!: AccountTransactionType;
+  @Column({
+    type: 'enum',
+    enum: AccountTransactionTypes
+  })
+  accountTransactionType!: string;
 
   @CreateDateColumn()
   createdAt!: Date;

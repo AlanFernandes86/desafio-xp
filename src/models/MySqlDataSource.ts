@@ -1,8 +1,9 @@
 import { DataSource } from 'typeorm';
 import { Account } from './entities/Account';
 import { AccountTransaction } from './entities/AccountTransaction';
-import { AccountTransactionType } from './entities/AccountTransactionType';
 import { Client } from './entities/Client';
+import { Wallet } from './entities/Wallet';
+import { WalletTransaction } from './entities/WalletTransaction';
 
 class MySqlDataSource {
   private static AppDataSource = new DataSource({
@@ -16,7 +17,8 @@ class MySqlDataSource {
       Client,
       Account,
       AccountTransaction,
-      AccountTransactionType,
+      Wallet,
+      WalletTransaction,
     ],
     synchronize: true
   });
