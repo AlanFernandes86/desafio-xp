@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "npm run build && node ./dist/server.js",
-    "dev": "nodemon --watch 'src/' --exec 'tsnd src/server.ts' -e ts",
+    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node src/server.ts' -e ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

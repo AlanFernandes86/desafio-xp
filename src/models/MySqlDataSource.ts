@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { Client } from './entities/Client';
 
 class MySqlDataSource {
   private static AppDataSource = new DataSource({
@@ -8,6 +9,10 @@ class MySqlDataSource {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    entities: [
+      Client,
+    ],
+    synchronize: true
   });
 
   private initialize() {
@@ -17,10 +22,11 @@ class MySqlDataSource {
     })
     .catch((err) => {
         console.error('Error during Data Source initialization', err);
+        throw new Error('Error ao conectar ao banco de dados!');        
     });
   }
 
-  get getConnection(): DataSource {
+  get dataSource(): DataSource {
     if (MySqlDataSource.AppDataSource.isInitialized) {
       return MySqlDataSource.AppDataSource;
     } else {
