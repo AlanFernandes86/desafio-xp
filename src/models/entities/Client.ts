@@ -4,6 +4,7 @@ import {
   CreateDateColumn, UpdateDateColumn,
   OneToOne,
 } from 'typeorm';
+import IClient from '../../interfaces/IClient';
 import Account from './Account';
 import Wallet from './Wallet';
 
@@ -24,16 +25,18 @@ class Client extends BaseEntity {
     password!: string;
 
   @OneToOne(() => Account, (account) => account.client)
-    account!: Account;
+    account?: Account;
 
   @OneToOne(() => Wallet, (wallet) => wallet.client)
-    wallet!: Wallet;
+    wallet?: Wallet;
 
   @CreateDateColumn()
-    createdAt!: Date;
+    createdAt?: Date;
 
   @UpdateDateColumn()
     updatedAt!: Date;
+
+  toIClient = (): IClient => this as IClient;
 }
 
 export default Client;
