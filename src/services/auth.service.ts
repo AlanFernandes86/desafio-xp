@@ -6,13 +6,14 @@ import Wallet from '../models/entities/Wallet';
 import dataSource from '../models/MySqlDataSource';
 import HttpError from '../shared/HttpError';
 import { generateTokenJWT } from '../utils/JWT';
+import uuid from '../utils/uuid';
 
 const setClient = async (iClient: IClient): Promise<Client> => {
   try {
     const client = new Client();
     client.name = iClient.name;
     client.username = iClient.username;
-    client.password = iClient.password;
+    client.password = uuid.getPasswordHash(iClient.password);
 
     const account = new Account();
     account.client = client;
