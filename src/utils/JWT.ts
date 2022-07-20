@@ -1,17 +1,24 @@
-import { sign, SignOptions, verify } from 'jsonwebtoken';
+import {
+  sign,
+  verify,
+  JwtPayload,
+  SignOptions,
+} from 'jsonwebtoken';
 import IClient from '../interfaces/IClient';
 import HttpError from '../shared/HttpError';
 
-const SECRET = 'process.env.JWT_SECRET';
+const SECRET = process.env.JWT_SECRET || 'desafioxp';
 
 const signInOptions: SignOptions = {
-  expiresIn: '15m',
+  expiresIn: '1d',
   algorithm: 'HS256',
 };
 
-const generateTokenJWT = (payload: IClient) => sign(payload, SECRET, signInOptions);
+const generateTokenJWT = (
+  payload: Omit<IClient, 'password' | 'account' | 'wallet'>,
+) => sign(payload, SECRET, signInOptions);
 
-const authorizationToken = async (token: string) => {
+const authorizationToken = async (token: string): Promise<string | JwtPayload> => {
   if (!token) {
     throw new HttpError(401, 'Token not found');
   }

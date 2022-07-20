@@ -6,10 +6,10 @@ interface IClient {
   name: string,
   username: string,
   password: string,
-  account: IAccount;
-  wallet: IWallet;
-  createdAt: Date;
-  updatedAt: Date;
+  account?: IAccount;
+  wallet?: IWallet;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export default IClient;
