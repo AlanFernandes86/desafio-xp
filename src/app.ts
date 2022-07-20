@@ -2,12 +2,16 @@ import express from 'express';
 import 'reflect-metadata';
 import 'dotenv/config';
 import 'express-async-errors';
-import conn from './models/MySqlDataSource';
+import dataSource from './models/MySqlDataSource';
 
 const app = express();
 
 app.use(express.json());
 
-conn.dataSource;
+const main = () => {
+  console.log(dataSource);
+};
+
+main();
 
 export default app;

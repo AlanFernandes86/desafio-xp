@@ -2,7 +2,7 @@ enum AccountTransactionTypes {
   DESPOSIT = 'deposit',
   WITHDRAW = 'withdraw',
   BUY = 'buy',
-  SELL = 'sell'
+  SELL = 'sell',
 }
 
 export default AccountTransactionTypes;

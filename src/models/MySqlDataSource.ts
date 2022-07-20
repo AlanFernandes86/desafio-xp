@@ -11,7 +11,7 @@ class MySqlDataSource {
   private static AppDataSource = new DataSource({
     type: 'mysql',
     host: process.env.DB_HOSTNAME,
-    port: Number.parseInt(process.env.DB_PORT || '3306'),
+    port: Number.parseInt(process.env.DB_PORT || '3306', 10),
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
@@ -24,29 +24,27 @@ class MySqlDataSource {
       WalletStock,
       Stock,
     ],
-    synchronize: true
+    synchronize: true,
   });
 
-  private initialize() {
+  private static initialize = () => {
     MySqlDataSource.AppDataSource.initialize()
-    .then(() => {
+      .then(() => {
         console.log('Data Source has been initialized!');
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.error('Error during Data Source initialization', err);
-        throw new Error('Error ao conectar ao banco de dados!');        
-    });
-  }
+        throw new Error('Error ao conectar ao banco de dados!');
+      });
+  };
 
-  get dataSource(): DataSource {
+  static get dataSource(): DataSource {
     if (MySqlDataSource.AppDataSource.isInitialized) {
       return MySqlDataSource.AppDataSource;
-    } else {
-      this.initialize();
-      return MySqlDataSource.AppDataSource;
     }
+    MySqlDataSource.initialize();
+    return MySqlDataSource.AppDataSource;
   }
-
 }
 
-export default new MySqlDataSource();
+export default MySqlDataSource.dataSource;
