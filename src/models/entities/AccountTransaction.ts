@@ -3,7 +3,7 @@ import {
   Column, PrimaryGeneratedColumn,
   CreateDateColumn, UpdateDateColumn, ManyToOne,
 } from 'typeorm';
-import { AccountTransactionTypes } from '../enum/AccountTransactionTypes';
+import { AccountTransactionTypes } from '../enums/AccountTransactionTypes';
 import { Account } from './Account';
 
 @Entity('AccountTransaction')

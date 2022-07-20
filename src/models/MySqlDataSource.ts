@@ -4,6 +4,7 @@ import { AccountTransaction } from './entities/AccountTransaction';
 import { Client } from './entities/Client';
 import { Stock } from './entities/Stock';
 import { Wallet } from './entities/Wallet';
+import { WalletStock } from './entities/WalletStock';
 import { WalletTransaction } from './entities/WalletTransaction';
 
 class MySqlDataSource {
@@ -20,6 +21,7 @@ class MySqlDataSource {
       AccountTransaction,
       Wallet,
       WalletTransaction,
+      WalletStock,
       Stock,
     ],
     synchronize: true

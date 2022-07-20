@@ -7,6 +7,7 @@ import {
   Column,
   OneToMany,
 } from 'typeorm';
+import { WalletStock } from './WalletStock';
 import { WalletTransaction } from './WalletTransaction';
 
 @Entity('Stock')
@@ -16,6 +17,9 @@ export class Stock extends BaseEntity {
 
   @OneToMany(() => WalletTransaction, (walletTransaction) => walletTransaction.stock)
   walletTransactions?: WalletTransaction[];
+
+  @OneToMany(() => WalletStock, walletStock => walletStock.stock)
+  walletStocks!: WalletStock[];
 
   @Column()
   codAcao!: string;

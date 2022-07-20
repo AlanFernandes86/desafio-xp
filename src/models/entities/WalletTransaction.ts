@@ -23,9 +23,6 @@ export class WalletTransaction extends BaseEntity {
   })
   stockMarketPrice!: number;
 
-  @Column()
-  stockMarketTime!: Date;
-
   @ManyToOne(() => Wallet, (wallet) => wallet.walletTransactions)
   wallet!: Wallet;
 

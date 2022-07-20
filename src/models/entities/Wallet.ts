@@ -5,8 +5,12 @@ import {
   OneToOne,
   OneToMany,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Client } from './Client';
+import { Stock } from './Stock';
+import { WalletStock } from './WalletStock';
 import { WalletTransaction } from './WalletTransaction';
 
 @Entity('Wallet')
@@ -20,6 +24,9 @@ export class Wallet extends BaseEntity {
 
   @OneToMany(() => WalletTransaction, (walletTransaction) => walletTransaction.wallet)
   walletTransactions?: WalletTransaction[];
+
+  @OneToMany(() => WalletStock, walletStock => walletStock.wallet)
+  walletStocks!: WalletStock[];
 
   @CreateDateColumn()
   createdAt!: Date;
