@@ -5,6 +5,7 @@ import {
   OneToOne,
 } from 'typeorm';
 import IClient from '../../interfaces/IClient';
+import IClientPayload from '../../interfaces/IPayload';
 import Account from './Account';
 import Wallet from './Wallet';
 
@@ -24,10 +25,18 @@ class Client extends BaseEntity {
   @Column()
     password!: string;
 
-  @OneToOne(() => Account, (account) => account.client)
+  @OneToOne(
+    () => Account,
+    (account) => account.client,
+    { cascade: true },
+  )
     account?: Account;
 
-  @OneToOne(() => Wallet, (wallet) => wallet.client)
+  @OneToOne(
+    () => Wallet,
+    (wallet) => wallet.client,
+    { cascade: true },
+  )
     wallet?: Wallet;
 
   @CreateDateColumn()
@@ -36,7 +45,28 @@ class Client extends BaseEntity {
   @UpdateDateColumn()
     updatedAt!: Date;
 
-  toIClient = (): IClient => this as IClient;
+  toIClient = (): IClient => (
+    {
+      id: this.id,
+      name: this.name,
+      password: this.password,
+      username: this.username,
+      account: this.account,
+      wallet: this.wallet,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    } as IClient
+  );
+
+  toIClientPayload = (): IClientPayload => (
+    {
+      id: this.id,
+      name: this.name,
+      username: this.username,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    } as IClientPayload
+  );
 }
 
 export default Client;

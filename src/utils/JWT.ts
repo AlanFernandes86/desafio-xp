@@ -4,7 +4,7 @@ import {
   JwtPayload,
   SignOptions,
 } from 'jsonwebtoken';
-import IClient from '../interfaces/IClient';
+import IClientPayload from '../interfaces/IPayload';
 import HttpError from '../shared/HttpError';
 
 const SECRET = process.env.JWT_SECRET || 'desafioxp';
@@ -15,7 +15,7 @@ const signInOptions: SignOptions = {
 };
 
 const generateTokenJWT = (
-  payload: Omit<IClient, 'password' | 'account' | 'wallet'>,
+  payload: IClientPayload,
 ) => sign(payload, SECRET, signInOptions);
 
 const authorizationToken = async (token: string): Promise<string | JwtPayload> => {

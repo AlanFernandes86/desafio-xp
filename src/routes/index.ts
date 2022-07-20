@@ -1,16 +1,15 @@
 import { Router } from 'express';
 
-import investimentosRouter from './investimentos.routes';
-import contaRouter from './conta.routes';
-import authMiddleware from '../middlewares/auth.middleware';
+import authRouter from './auth.routes';
+// import investimentosRouter from './investimentos.routes';
+// import contaRouter from './conta.routes';
+// import authMiddleware from '../middlewares/auth.middleware';
 
 const routers = Router();
 
-routers.use('/auth');
+routers.use('/auth', authRouter);
 
-routers.use(authMiddleware);
-
-routers.use('/investimentos', investimentosRouter);
-routers.use('/conta', contaRouter);
+// routers.use('/investimentos', authMiddleware, investimentosRouter);
+// routers.use('/conta', authMiddleware,  contaRouter);
 
 export default routers;
