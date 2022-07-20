@@ -1,33 +1,36 @@
-import { 
-  BaseEntity, Entity, 
+import {
+  BaseEntity, Entity,
   Column, PrimaryGeneratedColumn,
-  CreateDateColumn, UpdateDateColumn, ManyToOne,
+  CreateDateColumn, UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
-import { AccountTransactionTypes } from '../enums/AccountTransactionTypes';
-import { Account } from './Account';
+import AccountTransactionTypes from '../enums/AccountTransactionTypes';
+import Account from './Account';
 
 @Entity('AccountTransaction')
-export class AccountTransaction extends BaseEntity {
+class AccountTransaction extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id!: number;
+    id!: number;
 
   @Column({
     type: 'decimal',
   })
-  value!: number;
+    value!: number;
 
   @ManyToOne(() => Account, (account) => account.accountTransactions)
-  account!: Account;
+    account!: Account;
 
   @Column({
     type: 'enum',
-    enum: AccountTransactionTypes
+    enum: AccountTransactionTypes,
   })
-  accountTransactionType!: string;
+    accountTransactionType!: string;
 
   @CreateDateColumn()
-  createdAt!: Date;
+    createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: Date;
+    updatedAt!: Date;
 }
+
+export default AccountTransaction;

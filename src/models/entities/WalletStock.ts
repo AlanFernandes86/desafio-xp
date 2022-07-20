@@ -1,32 +1,34 @@
-import { 
+import {
   BaseEntity, Entity,
   CreateDateColumn, UpdateDateColumn,
   ManyToOne, Column,
   PrimaryColumn,
 } from 'typeorm';
-import { Stock } from './Stock';
-import { Wallet } from './Wallet';
+import Stock from './Stock';
+import Wallet from './Wallet';
 
 @Entity('WalletStock')
-export class WalletStock extends BaseEntity {
+class WalletStock extends BaseEntity {
   @PrimaryColumn()
-  walletId!: number;
+    walletId!: number;
 
   @PrimaryColumn()
-  stockId!: number;
+    stockId!: number;
 
   @Column()
-  quantity!: number;
+    quantity!: number;
 
   @ManyToOne(() => Wallet, (wallet) => wallet.walletStocks)
-  wallet!: Wallet;
+    wallet!: Wallet;
 
   @ManyToOne(() => Stock, (stock) => stock.walletStocks)
-  stock!: Stock;
+    stock!: Stock;
 
   @CreateDateColumn()
-  createdAt!: Date;
+    createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: Date;
+    updatedAt!: Date;
 }
+
+export default WalletStock;

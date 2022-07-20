@@ -1,37 +1,39 @@
-import { 
-  BaseEntity, Entity, 
+import {
+  BaseEntity, Entity,
   Column, PrimaryGeneratedColumn,
   CreateDateColumn, UpdateDateColumn,
   OneToOne,
 } from 'typeorm';
-import { Account } from './Account';
-import { Wallet } from './Wallet';
+import Account from './Account';
+import Wallet from './Wallet';
 
 @Entity('Client')
-export class Client extends BaseEntity {
+class Client extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id!: number;
+    id!: number;
 
   @Column()
-  name!: string;
+    name!: string;
 
   @Column({
     unique: true,
   })
-  username!: string;
+    username!: string;
 
   @Column()
-  password!: string;
+    password!: string;
 
   @OneToOne(() => Account, (account) => account.client)
-  account!: Account;
+    account!: Account;
 
   @OneToOne(() => Wallet, (wallet) => wallet.client)
-  wallet!: Wallet;
+    wallet!: Wallet;
 
   @CreateDateColumn()
-  createdAt!: Date;
+    createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: Date;
+    updatedAt!: Date;
 }
+
+export default Client;

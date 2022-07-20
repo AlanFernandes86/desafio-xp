@@ -1,31 +1,35 @@
-import { 
-  BaseEntity, Entity, 
+import {
+  BaseEntity, Entity,
   Column, PrimaryGeneratedColumn,
-  CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, JoinColumn,
+  CreateDateColumn, UpdateDateColumn,
+  OneToOne, OneToMany,
+  JoinColumn,
 } from 'typeorm';
-import { AccountTransaction } from './AccountTransaction';
-import { Client } from './Client';
+import AccountTransaction from './AccountTransaction';
+import Client from './Client';
 
 @Entity('Account')
-export class Account extends BaseEntity {
+class Account extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id!: number;
+    id!: number;
 
   @Column({
     type: 'decimal',
   })
-  balance!: number;
+    balance!: number;
 
   @OneToOne(() => Client)
-  @JoinColumn() 
-  client?: Client;
+  @JoinColumn()
+    client?: Client;
 
   @OneToMany(() => AccountTransaction, (accountTransaction) => accountTransaction.account)
-  accountTransactions?: AccountTransaction[];
+    accountTransactions?: AccountTransaction[];
 
   @CreateDateColumn()
-  createdAt!: Date;
+    createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: Date;
+    updatedAt!: Date;
 }
+
+export default Account;

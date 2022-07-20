@@ -1,10 +1,10 @@
 import { DataSource } from 'typeorm';
-import { Account } from './entities/Account';
-import { AccountTransaction } from './entities/AccountTransaction';
-import { Client } from './entities/Client';
-import { Stock } from './entities/Stock';
-import { Wallet } from './entities/Wallet';
-import { WalletStock } from './entities/WalletStock';
+import Account from './entities/Account';
+import AccountTransaction from './entities/AccountTransaction';
+import Client from './entities/Client';
+import Stock from './entities/Stock';
+import Wallet from './entities/Wallet';
+import WalletStock from './entities/WalletStock';
 import { WalletTransaction } from './entities/WalletTransaction';
 
 class MySqlDataSource {

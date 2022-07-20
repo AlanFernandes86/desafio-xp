@@ -1,5 +1,5 @@
-import { 
-  BaseEntity, 
+import {
+  BaseEntity,
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
@@ -7,67 +7,69 @@ import {
   Column,
   OneToMany,
 } from 'typeorm';
-import { WalletStock } from './WalletStock';
-import { WalletTransaction } from './WalletTransaction';
+import WalletStock from './WalletStock';
+import WalletTransaction from './WalletTransaction';
 
 @Entity('Stock')
-export class Stock extends BaseEntity {
+class Stock extends BaseEntity {
   @PrimaryColumn()
-  id!: number;
+    id!: number;
 
   @OneToMany(() => WalletTransaction, (walletTransaction) => walletTransaction.stock)
-  walletTransactions?: WalletTransaction[];
+    walletTransactions?: WalletTransaction[];
 
-  @OneToMany(() => WalletStock, walletStock => walletStock.stock)
-  walletStocks!: WalletStock[];
-
-  @Column()
-  codAcao!: string;
+  @OneToMany(() => WalletStock, (walletStock) => walletStock.stock)
+    walletStocks!: WalletStock[];
 
   @Column()
-  shortName!: string;
+    codAcao!: string;
 
   @Column()
-  fullName!: string;
+    shortName!: string;
+
+  @Column()
+    fullName!: string;
 
   @Column({
     type: 'decimal',
   })
-  marketPrice!: number;
+    marketPrice!: number;
 
   @Column({
     type: 'decimal',
   })
-  marketDayLow!: number;
+    marketDayLow!: number;
 
   @Column({
     type: 'decimal',
   })
-  marketDayHigh!: number;
+    marketDayHigh!: number;
 
   @Column({
     type: 'decimal',
   })
-  marketChange!: number;
+    marketChange!: number;
 
   @Column()
-  marketChangePercent!: string;
+    marketChangePercent!: string;
 
   @Column()
-  marketTime!: Date;
+    marketTime!: Date;
 
   @Column()
-  totalQuantity!: number;
+    totalQuantity!: number;
 
   @Column()
-  availableQuantity!: number;
+    availableQuantity!: number;
 
   @Column()
-  companyLogoUrl?: string;
+    companyLogoUrl?: string;
 
   @CreateDateColumn()
-  createdAt!: Date;
+    createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: Date;
+    updatedAt!: Date;
 }
+
+export default Stock;

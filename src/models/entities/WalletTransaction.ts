@@ -1,41 +1,42 @@
-import { 
-  BaseEntity, Entity, 
+import {
+  BaseEntity, Entity,
   Column, PrimaryGeneratedColumn,
   CreateDateColumn, UpdateDateColumn,
   ManyToOne, OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { AccountTransaction } from './AccountTransaction';
-import { Client } from './Client';
-import { Stock } from './Stock';
-import { Wallet } from './Wallet';
+import AccountTransaction from './AccountTransaction';
+import Stock from './Stock';
+import Wallet from './Wallet';
 
 @Entity('WalletTransaction')
 export class WalletTransaction extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id!: number;
+    id!: number;
 
   @Column()
-  quantity!: number;
+    quantity!: number;
 
   @Column({
     type: 'decimal',
   })
-  stockMarketPrice!: number;
+    stockMarketPrice!: number;
 
   @ManyToOne(() => Wallet, (wallet) => wallet.walletTransactions)
-  wallet!: Wallet;
+    wallet!: Wallet;
 
   @ManyToOne(() => Stock, (stock) => stock.walletTransactions)
-  stock!: Stock;
+    stock!: Stock;
 
   @OneToOne(() => AccountTransaction)
-  @JoinColumn() 
-  accountTransaction?: AccountTransaction;
+  @JoinColumn()
+    accountTransaction?: AccountTransaction;
 
   @CreateDateColumn()
-  createdAt!: Date;
+    createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt!: Date;
+    updatedAt!: Date;
 }
+
+export default WalletTransaction;
