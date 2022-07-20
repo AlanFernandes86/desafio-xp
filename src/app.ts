@@ -2,16 +2,12 @@ import express from 'express';
 import 'reflect-metadata';
 import 'dotenv/config';
 import 'express-async-errors';
-import dataSource from './models/MySqlDataSource';
+import httpErrorMiddleware from './middlewares/http.error.middleware';
 
 const app = express();
 
 app.use(express.json());
 
-const main = () => {
-  console.log(dataSource);
-};
-
-main();
+app.use(httpErrorMiddleware);
 
 export default app;
