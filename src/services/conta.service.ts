@@ -35,19 +35,13 @@ const setAccountTransaction = async (
   }
 };
 
-const getAccountByCodClient = async (codClient: string): Promise<Account> => {
-  const id = Number.parseInt(codClient, 10);
-
-  if (Number.isNaN(id)) {
-    throw new HttpError(400, 'Código do cliente inválido!');
-  }
-
+const getAccountByCodClient = async (codClient: number): Promise<Account> => {
   try {
     const dataSource = await getDataSource();
 
     const client = await dataSource.manager.findOneOrFail(Client, {
       where: {
-        id,
+        id: codClient,
       },
       relations: {
         account: true,

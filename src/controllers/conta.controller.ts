@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import contaService from '../services/conta.service';
 import IAccountTransaction from '../interfaces/IAccountTransaction';
 import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
+import HttpError from '../shared/HttpError';
 
 const deposit = async (
   req: Request,
@@ -49,7 +50,13 @@ const getAccountByCodClient = async (
 ) => {
   const { codClient } = req.params;
 
-  const account = await contaService.getAccountByCodClient(codClient);
+  const id = Number.parseInt(codClient, 10);
+
+  if (Number.isNaN(id)) {
+    throw new HttpError(400, 'Código do cliente inválido!');
+  }
+
+  const account = await contaService.getAccountByCodClient(id);
 
   res.status(200).json({ ...account });
 };

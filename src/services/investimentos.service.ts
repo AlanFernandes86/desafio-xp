@@ -1,6 +1,6 @@
 import getDataSource from '../models/MySqlDataSource';
 import IWalletTransaction from '../interfaces/IWalletTransaction';
-// import contaService from './conta.service';
+import contaService from './conta.service';
 import Stock from '../models/entities/Stock';
 import HttpError from '../shared/HttpError';
 
@@ -19,8 +19,10 @@ const getStockByCodAtivo = async (codAtivo: number): Promise<Stock> => {
   }
 };
 
-const saveStockPurchase = (transaction: IWalletTransaction) => {
+const saveStockPurchase = async (transaction: IWalletTransaction) => {
+  const stock = await getStockByCodAtivo(transaction.codAtivo);
 
+  const client = await contaService.getAccountByCodClient(transaction.codClient);
   // const accountTransaction = contaService.setAccountTransaction(transaction);
 };
 
