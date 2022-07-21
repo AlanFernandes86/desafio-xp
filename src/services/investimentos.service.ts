@@ -22,7 +22,7 @@ const getStockByCodAtivo = async (codAtivo: number): Promise<Stock> => {
   }
 };
 
-const saveStockPurchase = async (transaction: IWalletTransaction) => {
+const setWalletTransaction = async (transaction: IWalletTransaction) => {
   const dataSource = await getDataSource();
 
   const stock = await getStockByCodAtivo(transaction.codAtivo);
@@ -59,4 +59,4 @@ const saveStockPurchase = async (transaction: IWalletTransaction) => {
   return newWalletTransaction;
 };
 
-export default { saveStockPurchase };
+export default { setWalletTransaction };
