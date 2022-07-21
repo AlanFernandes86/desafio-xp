@@ -6,6 +6,8 @@ import Stock from './entities/Stock';
 import Wallet from './entities/Wallet';
 import WalletStock from './entities/WalletStock';
 import { WalletTransaction } from './entities/WalletTransaction';
+import AccountTransactionSubscriber from './subscribers/AccountTransactionSubscriber';
+import WalletTransactionSubscriber from './subscribers/WalletTransactionSubscriber';
 
 class MySqlDataSource {
   private static AppDataSource = new DataSource({
@@ -23,6 +25,10 @@ class MySqlDataSource {
       WalletTransaction,
       WalletStock,
       Stock,
+    ],
+    subscribers: [
+      AccountTransactionSubscriber,
+      WalletTransactionSubscriber,
     ],
     synchronize: true,
   });

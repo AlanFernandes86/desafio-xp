@@ -4,7 +4,9 @@ import {
   EventSubscriber,
   InsertEvent,
 } from 'typeorm';
+import Account from '../entities/Account';
 import AccountTransaction from '../entities/AccountTransaction';
+import AccountTransactionTypes from '../enums/AccountTransactionTypes';
 
 @EventSubscriber()
 class AccountTransactionSubscriber implements EntitySubscriberInterface<AccountTransaction> {
@@ -19,7 +21,24 @@ class AccountTransactionSubscriber implements EntitySubscriberInterface<AccountT
      * Called before AccountTransaction insertion.
      */
   afterInsert(event: InsertEvent<AccountTransaction>) {
-    console.log('BEFORE POST INSERTED: ', event.entity);
+    const transaction = event.entity;
+
+    if (
+      transaction.type === AccountTransactionTypes.SELL
+      || transaction.type === AccountTransactionTypes.DESPOSIT
+    ) {
+      event.manager.update(
+        Account,
+        transaction.account.id,
+        { balance: +transaction.value + +transaction.account.balance },
+      );
+    } else {
+      event.manager.update(
+        Account,
+        transaction.account.id,
+        { balance: +transaction.value - +transaction.account.balance },
+      );
+    }
   }
 }
 
