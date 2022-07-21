@@ -33,7 +33,7 @@ const setClient = async (iClient: IClient): Promise<Client> => {
   }
 };
 
-const getClient = async (clientId: number): Promise<Client> => {
+const getClientById = async (clientId: number): Promise<Client> => {
   try {
     const dataSource = await getDataSource();
 
@@ -77,7 +77,7 @@ const login = async (iClient: IClient): Promise<Client> => {
 };
 
 export default {
-  getClient,
+  getClientById,
   setClient,
   getNewToken,
   login,

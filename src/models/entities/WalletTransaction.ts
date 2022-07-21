@@ -24,13 +24,24 @@ export class WalletTransaction extends BaseEntity {
   })
     stockMarketPrice!: number;
 
-  @ManyToOne(() => Wallet, (wallet) => wallet.walletTransactions)
+  @ManyToOne(
+    () => Wallet,
+    (wallet) => wallet.walletTransactions,
+    { cascade: true },
+  )
     wallet!: Wallet;
 
-  @ManyToOne(() => Stock, (stock) => stock.walletTransactions)
+  @ManyToOne(
+    () => Stock,
+    (stock) => stock.walletTransactions,
+    { cascade: true },
+  )
     stock!: Stock;
 
-  @OneToOne(() => AccountTransaction)
+  @OneToOne(
+    () => AccountTransaction,
+    { cascade: true },
+  )
   @JoinColumn()
     accountTransaction?: AccountTransaction;
 
