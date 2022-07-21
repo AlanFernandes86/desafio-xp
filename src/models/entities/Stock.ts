@@ -28,7 +28,7 @@ class Stock extends BaseEntity {
     shortName!: string;
 
   @Column()
-    fullName!: string;
+    longName!: string;
 
   @Column({
     type: 'decimal',
@@ -58,16 +58,28 @@ class Stock extends BaseEntity {
   })
     marketChange!: number;
 
-  @Column()
-    marketChangePercent!: string;
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 7,
+  })
+    marketChangePercent!: number;
 
   @Column()
     marketTime!: Date;
 
-  @Column()
+  @Column({
+    type: 'decimal',
+    precision: 20,
+    scale: 0,
+  })
     totalQuantity!: number;
 
-  @Column()
+  @Column({
+    type: 'decimal',
+    precision: 20,
+    scale: 0,
+  })
     availableQuantity!: number;
 
   @Column()
