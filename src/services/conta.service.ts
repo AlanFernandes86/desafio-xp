@@ -3,6 +3,7 @@ import IAccountTransaction from '../interfaces/IAccountTransaction';
 import HttpError from '../shared/HttpError';
 import Client from '../models/entities/Client';
 import AccountTransaction from '../models/entities/AccountTransaction';
+import Account from '../models/entities/Account';
 
 const setAccountTransaction = async (
   transaction: IAccountTransaction,
@@ -32,4 +33,22 @@ const setAccountTransaction = async (
   }
 };
 
-export default { setAccountTransaction };
+const getAccountByCodClient = async (codClient: number): Promise<Account> => {
+  try {
+    const client = await dataSource.manager.findOneOrFail(Client, {
+      where: {
+        id: codClient,
+      },
+      relations: {
+        account: true,
+      },
+    });
+
+    return client.account;
+  } catch (error) {
+    console.log(error);
+    throw new HttpError(500, 'Error ao consultar dados da conta.');
+  }
+};
+
+export default { setAccountTransaction, getAccountByCodClient };
