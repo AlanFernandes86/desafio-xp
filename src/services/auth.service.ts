@@ -10,17 +10,17 @@ import uuid from '../utils/uuid';
 
 const setClient = async (iClient: IClient): Promise<Client> => {
   try {
+    const account = new Account();
+    account.balance = 0;
+
+    const wallet = new Wallet();
+
     const client = new Client();
     client.name = iClient.name;
     client.username = iClient.username;
     client.password = uuid.getPasswordHash(iClient.password);
-
-    const account = new Account();
-    account.client = client;
-    account.balance = 0;
-
-    const wallet = new Wallet();
-    wallet.client = client;
+    client.account = account;
+    client.wallet = wallet;
 
     const newClient = await dataSource.manager.save(client);
 
@@ -31,14 +31,18 @@ const setClient = async (iClient: IClient): Promise<Client> => {
   }
 };
 
-const getNewToken = (payload: IClientPayload) => generateTokenJWT(payload);
+const getNewToken = (payload: IClientPayload): string => generateTokenJWT(payload);
 
-const login = async (iClient: IClient) => {
+const login = async (iClient: IClient): Promise<Client> => {
   try {
     const client = await dataSource.manager.findOneOrFail(Client, {
       where: {
         username: iClient.username,
         password: uuid.getPasswordHash(iClient.password),
+      },
+      relations: {
+        wallet: true,
+        account: true,
       },
     });
     return client;

@@ -20,7 +20,7 @@ const login = async (
   const client = await authService.login(body);
   const token = authService.getNewToken(client.toIClientPayload());
 
-  res.status(200).json({ client: client.toIClientPayload(), token });
+  res.status(200).json({ client, token });
 };
 
 export default { setClient, login };
