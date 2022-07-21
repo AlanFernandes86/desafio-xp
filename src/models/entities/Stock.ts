@@ -3,16 +3,16 @@ import {
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
-  PrimaryColumn,
   Column,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import WalletStock from './WalletStock';
 import WalletTransaction from './WalletTransaction';
 
 @Entity('Stock')
 class Stock extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
     id!: number;
 
   @OneToMany(() => WalletTransaction, (walletTransaction) => walletTransaction.stock)
