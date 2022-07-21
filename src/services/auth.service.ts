@@ -33,4 +33,18 @@ const setClient = async (iClient: IClient): Promise<Client> => {
 
 const getNewToken = (payload: IClientPayload) => generateTokenJWT(payload);
 
-export default { setClient, getNewToken };
+const login = async (iClient: IClient) => {
+  try {
+    const client = await dataSource.manager.findOneOrFail(Client, {
+      where: {
+        id: iClient.id,
+        password: uuid.getPasswordHash(iClient.password),
+      },
+    });
+    return client;
+  } catch (error) {
+    throw new HttpError(500, 'Usuário ou senha inválidos');
+  }
+};
+
+export default { setClient, getNewToken, login };
