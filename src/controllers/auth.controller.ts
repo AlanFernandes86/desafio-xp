@@ -12,4 +12,15 @@ const setClient = async (
   res.status(201).json({ clientId: newClient.id, token });
 };
 
-export default { setClient };
+const login = async (
+  req: Request,
+  res: Response,
+) => {
+  const { body } = req;
+  const client = await authService.login(body);
+  const token = authService.getNewToken(client.toIClientPayload());
+
+  res.status(200).json({ client: client.toIClientPayload(), token });
+};
+
+export default { setClient, login };

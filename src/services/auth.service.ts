@@ -37,7 +37,7 @@ const login = async (iClient: IClient) => {
   try {
     const client = await dataSource.manager.findOneOrFail(Client, {
       where: {
-        id: iClient.id,
+        username: iClient.username,
         password: uuid.getPasswordHash(iClient.password),
       },
     });
