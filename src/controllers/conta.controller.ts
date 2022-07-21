@@ -43,4 +43,21 @@ const withdraw = async (
   res.status(200).json({ ...result });
 };
 
-export default { deposit, withdraw };
+const getAccountByCodClient = async (
+  req: Request,
+  res: Response,
+) => {
+  const { codClient } = req.params;
+
+  console.log(codClient);
+
+  const account = await contaService.getAccountByCodClient(codClient);
+
+  res.status(200).json({ ...account });
+};
+
+export default {
+  deposit,
+  withdraw,
+  getAccountByCodClient,
+};

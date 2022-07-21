@@ -33,11 +33,17 @@ const setAccountTransaction = async (
   }
 };
 
-const getAccountByCodClient = async (codClient: number): Promise<Account> => {
+const getAccountByCodClient = async (codClient: string): Promise<Account> => {
+  const id = Number.parseInt(codClient, 10);
+
+  if (Number.isNaN(id)) {
+    throw new HttpError(400, 'Código do cliente inválido!');
+  }
+
   try {
     const client = await dataSource.manager.findOneOrFail(Client, {
       where: {
-        id: codClient,
+        id,
       },
       relations: {
         account: true,
@@ -47,7 +53,7 @@ const getAccountByCodClient = async (codClient: number): Promise<Account> => {
     return client.account;
   } catch (error) {
     console.log(error);
-    throw new HttpError(500, 'Error ao consultar dados da conta.');
+    throw new HttpError(404, 'Cliente não encontrado para clientId informado.');
   }
 };
 
