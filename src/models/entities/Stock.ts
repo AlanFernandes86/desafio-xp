@@ -32,21 +32,29 @@ class Stock extends BaseEntity {
 
   @Column({
     type: 'decimal',
+    precision: 10,
+    scale: 4,
   })
     marketPrice!: number;
 
   @Column({
     type: 'decimal',
+    precision: 10,
+    scale: 4,
   })
     marketDayLow!: number;
 
   @Column({
     type: 'decimal',
+    precision: 10,
+    scale: 4,
   })
     marketDayHigh!: number;
 
   @Column({
     type: 'decimal',
+    precision: 10,
+    scale: 4,
   })
     marketChange!: number;
 

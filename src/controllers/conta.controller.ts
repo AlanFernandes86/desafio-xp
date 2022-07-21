@@ -23,4 +23,24 @@ const deposit = async (
   res.status(200).json({ ...result });
 };
 
-export default { deposit };
+const withdraw = async (
+  req: Request,
+  res: Response,
+) => {
+  const transaction: IAccountTransaction = req.body;
+
+  transaction.type = AccountTransactionTypes.WITHDRAW;
+
+  const newTransaction = await contaService.setAccountTransaction(transaction);
+
+  const result = {
+    clientId: transaction.codClient,
+    accountId: newTransaction.account.id,
+    oldBalance: +newTransaction.account.balance,
+    newBalance: +newTransaction.account.balance - +transaction.value,
+  };
+
+  res.status(200).json({ ...result });
+};
+
+export default { deposit, withdraw };

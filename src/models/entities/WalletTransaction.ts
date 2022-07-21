@@ -19,6 +19,8 @@ export class WalletTransaction extends BaseEntity {
 
   @Column({
     type: 'decimal',
+    precision: 10,
+    scale: 4,
   })
     stockMarketPrice!: number;
 

@@ -30,13 +30,13 @@ class AccountTransactionSubscriber implements EntitySubscriberInterface<AccountT
       event.manager.update(
         Account,
         transaction.account.id,
-        { balance: +transaction.value + +transaction.account.balance },
+        { balance: +transaction.account.balance + +transaction.value },
       );
     } else {
       event.manager.update(
         Account,
         transaction.account.id,
-        { balance: +transaction.value - +transaction.account.balance },
+        { balance: +transaction.account.balance - +transaction.value },
       );
     }
   }

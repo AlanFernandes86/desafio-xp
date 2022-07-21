@@ -14,6 +14,8 @@ class AccountTransaction extends BaseEntity {
 
   @Column({
     type: 'decimal',
+    precision: 10,
+    scale: 4,
   })
     value!: number;
 
