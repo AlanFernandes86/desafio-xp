@@ -13,7 +13,7 @@ const setClient = async (iClient: IClient): Promise<Client> => {
     const dataSource = await getDataSource();
 
     const account = new Account();
-    account.balance = 0;
+    account.balance = 0.0;
 
     const wallet = new Wallet();
 

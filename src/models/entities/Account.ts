@@ -5,6 +5,7 @@ import {
   OneToOne, OneToMany,
   JoinColumn,
 } from 'typeorm';
+import StringToDecimal from '../../utils/StringToDecimalTransformer';
 import AccountTransaction from './AccountTransaction';
 import Client from './Client';
 
@@ -17,6 +18,7 @@ class Account extends BaseEntity {
     type: 'decimal',
     precision: 10,
     scale: 4,
+    transformer: new StringToDecimal(),
   })
     balance!: number;
 
