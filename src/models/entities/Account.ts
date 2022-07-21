@@ -22,7 +22,10 @@ class Account extends BaseEntity {
   @JoinColumn()
     client?: Client;
 
-  @OneToMany(() => AccountTransaction, (accountTransaction) => accountTransaction.account)
+  @OneToMany(
+    () => AccountTransaction,
+    (accountTransaction) => accountTransaction.account,
+  )
     accountTransactions?: AccountTransaction[];
 
   @CreateDateColumn()

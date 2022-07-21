@@ -24,7 +24,7 @@ class AccountTransaction extends BaseEntity {
     type: 'enum',
     enum: AccountTransactionTypes,
   })
-    accountTransactionType!: string;
+    type!: string;
 
   @CreateDateColumn()
     createdAt!: Date;

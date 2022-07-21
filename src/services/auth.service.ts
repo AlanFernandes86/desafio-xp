@@ -1,9 +1,9 @@
+import dataSource from '../models/MySqlDataSource';
 import IClient from '../interfaces/IClient';
 import IClientPayload from '../interfaces/IClientPayload';
 import Account from '../models/entities/Account';
 import Client from '../models/entities/Client';
 import Wallet from '../models/entities/Wallet';
-import dataSource from '../models/MySqlDataSource';
 import HttpError from '../shared/HttpError';
 import { generateTokenJWT } from '../utils/JWT';
 import uuid from '../utils/uuid';

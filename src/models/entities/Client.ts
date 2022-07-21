@@ -30,14 +30,14 @@ class Client extends BaseEntity {
     (account) => account.client,
     { cascade: true },
   )
-    account?: Account;
+    account!: Account;
 
   @OneToOne(
     () => Wallet,
     (wallet) => wallet.client,
     { cascade: true },
   )
-    wallet?: Wallet;
+    wallet!: Wallet;
 
   @CreateDateColumn()
     createdAt?: Date;

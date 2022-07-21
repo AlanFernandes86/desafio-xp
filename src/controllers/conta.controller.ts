@@ -11,9 +11,16 @@ const deposit = async (
 
   transaction.type = AccountTransactionTypes.DESPOSIT;
 
-  const account = contaService.setAccountTransaction(transaction);
+  const newTransaction = await contaService.setAccountTransaction(transaction);
 
-  res.status(200).json(account);
+  const result = {
+    clientId: transaction.codClient,
+    accountId: newTransaction.account.id,
+    oldBalance: +newTransaction.account.balance,
+    newBalance: +newTransaction.account.balance + +transaction.value,
+  };
+
+  res.status(200).json({ ...result });
 };
 
 export default { deposit };

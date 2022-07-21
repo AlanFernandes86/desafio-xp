@@ -1,12 +1,34 @@
+import dataSource from '../models/MySqlDataSource';
 import IAccountTransaction from '../interfaces/IAccountTransaction';
-import Account from '../models/entities/Account';
 import HttpError from '../shared/HttpError';
+import Client from '../models/entities/Client';
+import AccountTransaction from '../models/entities/AccountTransaction';
 
-const setAccountTransaction = async (transaction: IAccountTransaction): Promise<Account> => {
+const setAccountTransaction = async (
+  transaction: IAccountTransaction,
+): Promise<AccountTransaction> => {
   try {
-    console.log('');
+    const client = await dataSource.manager.findOneOrFail(Client, {
+      where: {
+        id: transaction.codClient,
+      },
+      relations: {
+        wallet: true,
+        account: true,
+      },
+    });
+
+    const accountTransaction = new AccountTransaction();
+    accountTransaction.account = client.account;
+    accountTransaction.value = transaction.value;
+    accountTransaction.type = transaction.type;
+
+    const newTransaction = await dataSource.manager.save(accountTransaction);
+
+    return newTransaction;
   } catch (error) {
-    throw new HttpError(500, 'Usuário ou senha inválidos');
+    console.log(error);
+    throw new HttpError(500, 'Error ao realizar transação da conta.');
   }
 };
 
