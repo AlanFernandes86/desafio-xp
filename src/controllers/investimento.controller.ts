@@ -17,7 +17,7 @@ const buy = async (
   const transactionValue = newTransaction.accountTransaction.value;
   const result = {
     codClient: transaction.codClient,
-    stock: newTransaction.stock,
+    codAtivo: newTransaction.stock.id,
     numberOfStocksPurchased: newTransaction.quantity,
     oldBalance,
     newBalance: oldBalance - transactionValue,
