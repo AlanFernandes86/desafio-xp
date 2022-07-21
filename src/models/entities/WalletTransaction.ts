@@ -43,7 +43,7 @@ export class WalletTransaction extends BaseEntity {
     { cascade: true },
   )
   @JoinColumn()
-    accountTransaction?: AccountTransaction;
+    accountTransaction!: AccountTransaction;
 
   @CreateDateColumn()
     createdAt!: Date;
