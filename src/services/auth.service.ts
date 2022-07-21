@@ -1,4 +1,4 @@
-import dataSource from '../models/MySqlDataSource';
+import getDataSource from '../models/MySqlDataSource';
 import IClient from '../interfaces/IClient';
 import IClientPayload from '../interfaces/IClientPayload';
 import Account from '../models/entities/Account';
@@ -10,6 +10,8 @@ import uuid from '../utils/uuid';
 
 const setClient = async (iClient: IClient): Promise<Client> => {
   try {
+    const dataSource = await getDataSource();
+
     const account = new Account();
     account.balance = 0;
 
@@ -35,6 +37,8 @@ const getNewToken = (payload: IClientPayload): string => generateTokenJWT(payloa
 
 const login = async (iClient: IClient): Promise<Client> => {
   try {
+    const dataSource = await getDataSource();
+
     const client = await dataSource.manager.findOneOrFail(Client, {
       where: {
         username: iClient.username,

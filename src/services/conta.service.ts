@@ -1,4 +1,4 @@
-import dataSource from '../models/MySqlDataSource';
+import getDataSource from '../models/MySqlDataSource';
 import IAccountTransaction from '../interfaces/IAccountTransaction';
 import HttpError from '../shared/HttpError';
 import Client from '../models/entities/Client';
@@ -9,6 +9,8 @@ const setAccountTransaction = async (
   transaction: IAccountTransaction,
 ): Promise<AccountTransaction> => {
   try {
+    const dataSource = await getDataSource();
+
     const client = await dataSource.manager.findOneOrFail(Client, {
       where: {
         id: transaction.codClient,
@@ -41,6 +43,8 @@ const getAccountByCodClient = async (codClient: string): Promise<Account> => {
   }
 
   try {
+    const dataSource = await getDataSource();
+
     const client = await dataSource.manager.findOneOrFail(Client, {
       where: {
         id,

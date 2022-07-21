@@ -16,7 +16,7 @@ class Stock extends BaseEntity {
     id!: number;
 
   @OneToMany(() => WalletTransaction, (walletTransaction) => walletTransaction.stock)
-    walletTransactions?: WalletTransaction[];
+    walletTransactions!: WalletTransaction[];
 
   @OneToMany(() => WalletStock, (walletStock) => walletStock.stock)
     walletStocks!: WalletStock[];
