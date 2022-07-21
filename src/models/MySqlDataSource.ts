@@ -40,7 +40,7 @@ const initialize = async () => {
     })
     .catch((err) => {
       console.error('Error during Data Source initialization', err);
-      throw new HttpError(500, 'Error ao conectar ao banco de dados!');
+      throw new HttpError(500, 'Error ao conectar com o banco de dados!');
     });
 };
 

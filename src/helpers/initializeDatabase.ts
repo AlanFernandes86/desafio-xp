@@ -29,7 +29,7 @@ const initializeDatabase = async () => {
             totalQuantity: stockSymbol?.quantity || 10000,
             availableQuantity: stockSymbol?.quantity || 10000,
             companyLogoUrl: stock.logourl || '',
-          };
+          } as Stock;
         },
       );
 

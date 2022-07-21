@@ -49,8 +49,6 @@ const getAccountByCodClient = async (
 ) => {
   const { codClient } = req.params;
 
-  console.log(codClient);
-
   const account = await contaService.getAccountByCodClient(codClient);
 
   res.status(200).json({ ...account });
