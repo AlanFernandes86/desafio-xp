@@ -5,7 +5,7 @@ import {
   OneToOne,
 } from 'typeorm';
 import IClient from '../../interfaces/IClient';
-import IClientPayload from '../../interfaces/IPayload';
+import IClientPayload from '../../interfaces/IClientPayload';
 import Account from './Account';
 import Wallet from './Wallet';
 

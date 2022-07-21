@@ -1,5 +1,5 @@
 import IClient from '../interfaces/IClient';
-import IClientPayload from '../interfaces/IPayload';
+import IClientPayload from '../interfaces/IClientPayload';
 import Account from '../models/entities/Account';
 import Client from '../models/entities/Client';
 import Wallet from '../models/entities/Wallet';

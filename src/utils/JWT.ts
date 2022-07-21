@@ -4,7 +4,7 @@ import {
   JwtPayload,
   SignOptions,
 } from 'jsonwebtoken';
-import IClientPayload from '../interfaces/IPayload';
+import IClientPayload from '../interfaces/IClientPayload';
 import HttpError from '../shared/HttpError';
 
 const SECRET = process.env.JWT_SECRET || 'desafioxp';
