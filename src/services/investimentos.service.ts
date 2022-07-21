@@ -3,6 +3,7 @@ import IWalletTransaction from '../interfaces/IWalletTransaction';
 import contaService from './conta.service';
 import Stock from '../models/entities/Stock';
 import HttpError from '../shared/HttpError';
+import IAccountTransaction from '../interfaces/IAccountTransaction';
 
 const getStockByCodAtivo = async (codAtivo: number): Promise<Stock> => {
   try {
@@ -22,7 +23,11 @@ const getStockByCodAtivo = async (codAtivo: number): Promise<Stock> => {
 const saveStockPurchase = async (transaction: IWalletTransaction) => {
   const stock = await getStockByCodAtivo(transaction.codAtivo);
 
-  const client = await contaService.getAccountByCodClient(transaction.codClient);
+  const totalPurchaseAmount = stock.marketPrice * transaction.qtdeAtivo;
+
+  const accountTransaction = transaction as IAccountTransaction;
+
+  const account = await contaService.getAccountByCodClient(transaction.codClient);
   // const accountTransaction = contaService.setAccountTransaction(transaction);
 };
 

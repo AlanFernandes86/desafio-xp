@@ -33,6 +33,27 @@ const setClient = async (iClient: IClient): Promise<Client> => {
   }
 };
 
+const getClient = async (clientId: number): Promise<Client> => {
+  try {
+    const dataSource = await getDataSource();
+
+    const client = await dataSource.manager.findOneOrFail(Client, {
+      where: {
+        id: clientId,
+      },
+      relations: {
+        wallet: true,
+        account: true,
+      },
+    });
+
+    return client;
+  } catch (error) {
+    console.log(error);
+    throw new HttpError(500, 'Cliente não encontrado.');
+  }
+};
+
 const getNewToken = (payload: IClientPayload): string => generateTokenJWT(payload);
 
 const login = async (iClient: IClient): Promise<Client> => {
@@ -55,4 +76,9 @@ const login = async (iClient: IClient): Promise<Client> => {
   }
 };
 
-export default { setClient, getNewToken, login };
+export default {
+  getClient,
+  setClient,
+  getNewToken,
+  login,
+};
