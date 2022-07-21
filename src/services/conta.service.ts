@@ -2,7 +2,7 @@ import IAccountTransaction from '../interfaces/IAccountTransaction';
 import Account from '../models/entities/Account';
 import HttpError from '../shared/HttpError';
 
-const deposit = async (transaction: IAccountTransaction): Promise<Account> => {
+const setAccountTransaction = async (transaction: IAccountTransaction): Promise<Account> => {
   try {
     console.log('');
   } catch (error) {
@@ -10,4 +10,4 @@ const deposit = async (transaction: IAccountTransaction): Promise<Account> => {
   }
 };
 
-export default { deposit };
+export default { setAccountTransaction };
