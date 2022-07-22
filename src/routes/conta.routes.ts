@@ -6,6 +6,6 @@ const router = Router();
 router.post('/deposito', contaController.deposit);
 router.post('/saque', contaController.withdraw);
 router.get('/:codClient', contaController.getAccountByCodClient);
-// router.get('/ativos/:codCliente');
+router.get('/ativos/:codCliente');
 
 export default router;
