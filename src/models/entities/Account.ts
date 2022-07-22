@@ -16,7 +16,7 @@ class Account extends BaseEntity {
 
   @Column({
     type: 'decimal',
-    precision: 10,
+    precision: 11,
     scale: 4,
     transformer: new StringToDecimal(),
   })

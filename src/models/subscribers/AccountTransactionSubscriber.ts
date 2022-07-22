@@ -4,6 +4,7 @@ import {
   EventSubscriber,
   InsertEvent,
 } from 'typeorm';
+import HttpError from '../../shared/HttpError';
 import Account from '../entities/Account';
 import AccountTransaction from '../entities/AccountTransaction';
 import AccountTransactionTypes from '../enums/AccountTransactionTypes';
@@ -15,6 +16,24 @@ class AccountTransactionSubscriber implements EntitySubscriberInterface<AccountT
      */
   listenTo() {
     return AccountTransaction;
+  }
+
+  /**
+     * Called before AccountTransaction insertion.
+     */
+  beforeInsert(event: InsertEvent<AccountTransaction>) {
+    const transaction = event.entity;
+
+    if (
+      transaction.type === AccountTransactionTypes.SELL
+      || transaction.type === AccountTransactionTypes.DESPOSIT
+    ) {
+      const totalTransactionValue = transaction.account.balance + transaction.value;
+
+      if (totalTransactionValue > 9999999.9999) {
+        throw new HttpError(500, 'O valor máximo para saldo em conta é R$ 9.999.999,9999');
+      }
+    }
   }
 
   /**

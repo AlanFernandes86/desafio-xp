@@ -18,7 +18,7 @@ export class WalletTransaction extends BaseEntity {
 
   @Column({
     type: 'decimal',
-    precision: 20,
+    precision: 8,
     scale: 0,
     transformer: new StringToDecimal(),
   })

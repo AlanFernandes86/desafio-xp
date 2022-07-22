@@ -56,10 +56,10 @@ const setAccountTransaction = async (
     const newTransaction = await dataSource.manager.save(accountTransaction);
 
     return newTransaction;
-  } catch (error) {
+  } catch (error: any) {
     throw new HttpError(
       500,
-      'Error ao salvar transação da conta.',
+      error.message,
     );
   }
 };
