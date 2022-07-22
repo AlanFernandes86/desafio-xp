@@ -4,6 +4,7 @@ import {
   CreateDateColumn, UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
+import StringToDecimal from '../../utils/StringToNumberTransformer';
 import AccountTransactionTypes from '../enums/AccountTransactionTypes';
 import Account from './Account';
 
@@ -16,6 +17,7 @@ class AccountTransaction extends BaseEntity {
     type: 'decimal',
     precision: 10,
     scale: 4,
+    transformer: new StringToDecimal(),
   })
     value!: number;
 

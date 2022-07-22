@@ -4,6 +4,7 @@ import {
   ManyToOne, Column,
   PrimaryColumn,
 } from 'typeorm';
+import StringToDecimal from '../../utils/StringToNumberTransformer';
 import Stock from './Stock';
 import Wallet from './Wallet';
 
@@ -15,7 +16,12 @@ class WalletStock extends BaseEntity {
   @PrimaryColumn()
     stockId!: number;
 
-  @Column()
+  @Column({
+    type: 'decimal',
+    precision: 20,
+    scale: 0,
+    transformer: new StringToDecimal(),
+  })
     quantity!: number;
 
   @ManyToOne(() => Wallet, (wallet) => wallet.walletStocks)

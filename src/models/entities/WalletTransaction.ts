@@ -5,6 +5,7 @@ import {
   ManyToOne, OneToOne,
   JoinColumn,
 } from 'typeorm';
+import StringToDecimal from '../../utils/StringToNumberTransformer';
 import AccountTransaction from './AccountTransaction';
 import Stock from './Stock';
 import Wallet from './Wallet';
@@ -14,13 +15,19 @@ export class WalletTransaction extends BaseEntity {
   @PrimaryGeneratedColumn()
     id!: number;
 
-  @Column()
+  @Column({
+    type: 'decimal',
+    precision: 20,
+    scale: 0,
+    transformer: new StringToDecimal(),
+  })
     quantity!: number;
 
   @Column({
     type: 'decimal',
     precision: 10,
     scale: 4,
+    transformer: new StringToDecimal(),
   })
     stockMarketPrice!: number;
 

@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import StringToDecimal from '../../utils/StringToNumberTransformer';
 import WalletStock from './WalletStock';
 import WalletTransaction from './WalletTransaction';
 
@@ -34,6 +35,7 @@ class Stock extends BaseEntity {
     type: 'decimal',
     precision: 10,
     scale: 4,
+    transformer: new StringToDecimal(),
   })
     marketPrice!: number;
 
@@ -41,6 +43,7 @@ class Stock extends BaseEntity {
     type: 'decimal',
     precision: 10,
     scale: 4,
+    transformer: new StringToDecimal(),
   })
     marketDayLow!: number;
 
@@ -48,6 +51,7 @@ class Stock extends BaseEntity {
     type: 'decimal',
     precision: 10,
     scale: 4,
+    transformer: new StringToDecimal(),
   })
     marketDayHigh!: number;
 
@@ -55,6 +59,7 @@ class Stock extends BaseEntity {
     type: 'decimal',
     precision: 10,
     scale: 4,
+    transformer: new StringToDecimal(),
   })
     marketChange!: number;
 
@@ -62,6 +67,7 @@ class Stock extends BaseEntity {
     type: 'decimal',
     precision: 10,
     scale: 7,
+    transformer: new StringToDecimal(),
   })
     marketChangePercent!: number;
 
@@ -72,6 +78,7 @@ class Stock extends BaseEntity {
     type: 'decimal',
     precision: 20,
     scale: 0,
+    transformer: new StringToDecimal(),
   })
     totalQuantity!: number;
 
@@ -79,6 +86,7 @@ class Stock extends BaseEntity {
     type: 'decimal',
     precision: 20,
     scale: 0,
+    transformer: new StringToDecimal(),
   })
     availableQuantity!: number;
 

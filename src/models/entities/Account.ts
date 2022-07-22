@@ -5,7 +5,7 @@ import {
   OneToOne, OneToMany,
   JoinColumn,
 } from 'typeorm';
-import StringToDecimal from '../../utils/StringToDecimalTransformer';
+import StringToDecimal from '../../utils/StringToNumberTransformer';
 import AccountTransaction from './AccountTransaction';
 import Client from './Client';
 
