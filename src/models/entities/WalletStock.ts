@@ -2,7 +2,7 @@ import {
   BaseEntity, Entity,
   CreateDateColumn, UpdateDateColumn,
   ManyToOne, Column,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import StringToDecimal from '../../utils/StringToNumberTransformer';
 import Stock from './Stock';
@@ -10,11 +10,14 @@ import Wallet from './Wallet';
 
 @Entity('WalletStock')
 class WalletStock extends BaseEntity {
-  @PrimaryColumn()
-    walletId!: number;
+  @PrimaryGeneratedColumn()
+    id!: number;
 
-  @PrimaryColumn()
+  @Column()
     stockId!: number;
+
+  @Column()
+    walletId!: number;
 
   @Column({
     type: 'decimal',
@@ -24,10 +27,18 @@ class WalletStock extends BaseEntity {
   })
     quantity!: number;
 
-  @ManyToOne(() => Wallet, (wallet) => wallet.walletStocks)
+  @ManyToOne(
+    () => Wallet,
+    (wallet) => wallet.walletStocks,
+    { cascade: ['remove'] },
+  )
     wallet!: Wallet;
 
-  @ManyToOne(() => Stock, (stock) => stock.walletStocks)
+  @ManyToOne(
+    () => Stock,
+    (stock) => stock.walletStocks,
+    { cascade: ['remove'] },
+  )
     stock!: Stock;
 
   @CreateDateColumn()

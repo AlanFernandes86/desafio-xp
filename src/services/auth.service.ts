@@ -42,7 +42,11 @@ const getClientById = async (clientId: number): Promise<Client> => {
         id: clientId,
       },
       relations: {
-        wallet: true,
+        wallet: {
+          walletStocks: {
+            stock: true,
+          },
+        },
         account: true,
       },
     });
@@ -50,7 +54,7 @@ const getClientById = async (clientId: number): Promise<Client> => {
     return client;
   } catch (error) {
     console.log(error);
-    throw new HttpError(500, 'Cliente não encontrado.');
+    throw new HttpError(404, 'Cliente não encontrado.');
   }
 };
 

@@ -22,7 +22,10 @@ class Wallet extends BaseEntity {
   @OneToMany(() => WalletTransaction, (walletTransaction) => walletTransaction.wallet)
     walletTransactions?: WalletTransaction[];
 
-  @OneToMany(() => WalletStock, (walletStock) => walletStock.wallet)
+  @OneToMany(
+    () => WalletStock,
+    (walletStock) => walletStock.wallet,
+  )
     walletStocks!: WalletStock[];
 
   @CreateDateColumn()

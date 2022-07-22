@@ -26,8 +26,8 @@ const initializeDatabase = async () => {
             marketChange: stock.regularMarketChange || 0,
             marketChangePercent: stock.regularMarketChangePercent || 0,
             marketTime: stock.regularMarketTime || new Date(Date.now()),
-            totalQuantity: stockSymbol?.quantity || 10000,
-            availableQuantity: stockSymbol?.quantity || 10000,
+            totalQuantity: stockSymbol?.quantity || 100000,
+            availableQuantity: stockSymbol?.quantity || 100000,
             companyLogoUrl: stock.logourl || '',
           } as Stock;
         },
@@ -40,7 +40,7 @@ const initializeDatabase = async () => {
 
       console.log('Dados inseridos com sucesso');
     } catch (error: any) {
-      console.log('Error ao inserir dados', error.message);
+      console.log('Error ao inserir dados ', error.message);
     }
   }
 };

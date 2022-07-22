@@ -1,3 +1,4 @@
+import { InsertResult } from 'typeorm';
 import getDataSource from '../models/MySqlDataSource';
 import IWalletTransaction from '../interfaces/IWalletTransaction';
 import contaService from './conta.service';
@@ -41,7 +42,9 @@ const validateTransaction = (
   }
 };
 
-const setWalletTransaction = async (transaction: IWalletTransaction) => {
+const setWalletTransaction = async (
+  transaction: IWalletTransaction,
+): Promise<WalletTransaction> => {
   const dataSource = await getDataSource();
 
   const stock = await getStockByCodAtivo(transaction.codAtivo);
@@ -60,16 +63,21 @@ const setWalletTransaction = async (transaction: IWalletTransaction) => {
 
   const accountTransaction = await contaService.setAccountTransaction(iAccountTransaction);
 
-  const walletTransaction = new WalletTransaction();
-  walletTransaction.accountTransaction = accountTransaction;
-  walletTransaction.wallet = client.wallet;
-  walletTransaction.stock = stock;
-  walletTransaction.stockMarketPrice = stock.marketPrice;
-  walletTransaction.quantity = transaction.qtdeAtivo;
+  try {
+    const walletTransaction = new WalletTransaction();
+    walletTransaction.accountTransaction = accountTransaction;
+    walletTransaction.stock = stock;
+    walletTransaction.wallet = client.wallet;
+    walletTransaction.stockMarketPrice = stock.marketPrice;
+    walletTransaction.quantity = transaction.qtdeAtivo;
 
-  const newWalletTransaction = await dataSource.manager.save(walletTransaction);
+    const newWalletTransaction = await dataSource.manager.save(walletTransaction);
 
-  return newWalletTransaction;
+    return newWalletTransaction;
+  } catch (error) {
+    console.log(error);
+    throw new HttpError(500, 'Error ao cadastrar transação da carteira.');
+  }
 };
 
 export default { setWalletTransaction };
