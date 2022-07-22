@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import contaService from '../services/conta.service';
 import IAccountTransaction from '../interfaces/IAccountTransaction';
 import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
-import HttpError from '../shared/HttpError';
 import validateAndParserParamToInt from '../utils/validateAndParserParamToNumber';
 
 const deposit = async (
@@ -58,7 +57,7 @@ const getAccountByCodClient = async (
   res.status(200).json({ ...account });
 };
 
-const getStocksByCodClient = async (
+const getWalletByCodClient = async (
   req: Request,
   res: Response,
 ) => {
@@ -66,14 +65,14 @@ const getStocksByCodClient = async (
 
   const id = validateAndParserParamToInt(codClient, 'Código do cliente inválido!');
 
-  const stocks = await contaService.getStocksByCodClient(id);
+  const wallet = await contaService.getWalletByCodClient(id);
 
-  res.status(200).json({ ...stocks });
+  res.status(200).json(wallet.toGetStocksByCodClientResponse());
 };
 
 export default {
   deposit,
   withdraw,
   getAccountByCodClient,
-  getStocksByCodClient,
+  getWalletByCodClient,
 };

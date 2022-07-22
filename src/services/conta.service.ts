@@ -4,6 +4,7 @@ import HttpError from '../shared/HttpError';
 import Client from '../models/entities/Client';
 import AccountTransaction from '../models/entities/AccountTransaction';
 import Account from '../models/entities/Account';
+import Wallet from '../models/entities/Wallet';
 
 const setAccountTransaction = async (
   transaction: IAccountTransaction,
@@ -55,4 +56,33 @@ const getAccountByCodClient = async (codClient: number): Promise<Account> => {
   }
 };
 
-export default { setAccountTransaction, getAccountByCodClient };
+const getWalletByCodClient = async (codClient: number): Promise<Wallet> => {
+  try {
+    const dataSource = await getDataSource();
+
+    const client = await dataSource.manager.findOneOrFail(Client, {
+      where: {
+        id: codClient,
+      },
+      relations: {
+        wallet: {
+          client: true,
+          walletStocks: {
+            stock: true,
+          },
+        },
+      },
+    });
+
+    return client.wallet;
+  } catch (error) {
+    console.log(error);
+    throw new HttpError(404, 'Cliente não encontrado para clientId informado.');
+  }
+};
+
+export default {
+  setAccountTransaction,
+  getAccountByCodClient,
+  getWalletByCodClient,
+};
