@@ -4,7 +4,9 @@ import {
   EventSubscriber,
   InsertEvent,
 } from 'typeorm';
+import Stock from '../entities/Stock';
 import WalletTransaction from '../entities/WalletTransaction';
+import AccountTransactionTypes from '../enums/AccountTransactionTypes';
 
 @EventSubscriber()
 class WalletTransactionSubscriber implements EntitySubscriberInterface<WalletTransaction> {
@@ -19,7 +21,15 @@ class WalletTransactionSubscriber implements EntitySubscriberInterface<WalletTra
      * Called before WalletTransaction insertion.
      */
   afterInsert(event: InsertEvent<WalletTransaction>) {
-    console.log('BEFORE POST INSERTED: ', event.entity);
+    const transaction = event.entity;
+
+    if (transaction.accountTransaction.type === AccountTransactionTypes.BUY) {
+      event.manager.update(
+        Stock,
+        { id: transaction.stock.id },
+        { availableQuantity: transaction.stock.availableQuantity - transaction.quantity },
+      );
+    }
   }
 }
 
