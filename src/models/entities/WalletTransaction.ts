@@ -6,6 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import StringToDecimal from '../../utils/StringToNumberTransformer';
+import AccountTransactionTypes from '../enums/AccountTransactionTypes';
 import AccountTransaction from './AccountTransaction';
 import Stock from './Stock';
 import Wallet from './Wallet';
@@ -58,17 +59,19 @@ export class WalletTransaction extends BaseEntity {
   @UpdateDateColumn()
     updatedAt!: Date;
 
-  toControllerResponse = () => {
+  toBuyAndSellResponse = () => {
     const oldBalance = this.accountTransaction.account.balance;
     const transactionValue = this.accountTransaction.value;
+    const transactionType = this.accountTransaction.type;
+    const isBuy = transactionType === AccountTransactionTypes.BUY;
     return {
       codClient: this.wallet.client?.id,
       codAtivo: this.stock.id,
-      numberOfStocksPurchased: this.quantity,
+      quantityTransacted: this.quantity,
       oldBalance,
-      newBalance: oldBalance - transactionValue,
+      newBalance: isBuy ? oldBalance - transactionValue : oldBalance + transactionValue,
       transactionValue,
-      transactionType: this.accountTransaction.type,
+      transactionType,
     };
   };
 }

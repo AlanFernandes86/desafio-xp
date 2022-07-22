@@ -32,7 +32,12 @@ class AccountTransactionSubscriber implements EntitySubscriberInterface<AccountT
         transaction.account.id,
         { balance: transaction.account.balance + transaction.value },
       );
-    } else {
+    }
+
+    if (
+      transaction.type === AccountTransactionTypes.BUY
+      || transaction.type === AccountTransactionTypes.WITHDRAW
+    ) {
       event.manager.update(
         Account,
         transaction.account.id,

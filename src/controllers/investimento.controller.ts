@@ -13,7 +13,7 @@ const buy = async (
 
   const newTransaction = await investimentosService.setWalletTransaction(transaction);
 
-  res.status(200).json({ ...newTransaction.toControllerResponse() });
+  res.status(200).json({ ...newTransaction.toBuyAndSellResponse() });
 };
 
 const sell = async (
@@ -26,7 +26,7 @@ const sell = async (
 
   const newTransaction = await investimentosService.setWalletTransaction(transaction);
 
-  res.status(200).json({ ...newTransaction.toControllerResponse() });
+  res.status(200).json({ ...newTransaction.toBuyAndSellResponse() });
 };
 
 export default { buy, sell };
