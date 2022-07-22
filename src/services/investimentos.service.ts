@@ -5,7 +5,6 @@ import Stock from '../models/entities/Stock';
 import HttpError from '../shared/HttpError';
 import IAccountTransaction from '../interfaces/IAccountTransaction';
 import WalletTransaction from '../models/entities/WalletTransaction';
-import authService from './auth.service';
 import clientService from './client.service';
 import Client from '../models/entities/Client';
 import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
@@ -38,6 +37,20 @@ const validateTransaction = (
 
     if (client.account.balance < totalTransactionAmount) {
       throw new HttpError(400, 'Saldo financeiro da conta insuficiente.');
+    }
+  }
+
+  if (transaction.type === AccountTransactionTypes.SELL) {
+    const stockInWallet = client.wallet.walletStocks.find(
+      ({ stockId }) => stockId === stock.id,
+    );
+
+    if (!stockInWallet) {
+      throw new HttpError(400, 'Carteira do cliente não possui este ativo.');
+    }
+
+    if ((stockInWallet?.quantity || 0) < transaction.qtdeAtivo) {
+      throw new HttpError(400, 'Quantidade de ativos na carteira menor que a solitação de venda.');
     }
   }
 };
