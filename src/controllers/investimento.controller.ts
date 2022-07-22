@@ -13,19 +13,7 @@ const buy = async (
 
   const newTransaction = await investimentosService.setWalletTransaction(transaction);
 
-  const oldBalance = newTransaction.accountTransaction.account.balance;
-  const transactionValue = newTransaction.accountTransaction.value;
-  const result = {
-    codClient: newTransaction.wallet.client?.id,
-    codAtivo: newTransaction.stock.id,
-    numberOfStocksPurchased: newTransaction.quantity,
-    oldBalance,
-    newBalance: oldBalance - transactionValue,
-    transactionValue,
-    transactionType: AccountTransactionTypes.BUY,
-  };
-
-  res.status(200).json({ ...result });
+  res.status(200).json({ ...newTransaction.toControllerResponse() });
 };
 
 const sell = async (
@@ -38,19 +26,7 @@ const sell = async (
 
   const newTransaction = await investimentosService.setWalletTransaction(transaction);
 
-  const oldBalance = newTransaction.accountTransaction.account.balance;
-  const transactionValue = newTransaction.accountTransaction.value;
-  const result = {
-    codClient: newTransaction.wallet.client?.id,
-    codAtivo: newTransaction.stock.id,
-    numberOfStocksPurchased: newTransaction.quantity,
-    oldBalance,
-    newBalance: oldBalance - transactionValue,
-    transactionValue,
-    transactionType: AccountTransactionTypes.BUY,
-  };
-
-  res.status(200).json({ ...result });
+  res.status(200).json({ ...newTransaction.toControllerResponse() });
 };
 
 export default { buy, sell };

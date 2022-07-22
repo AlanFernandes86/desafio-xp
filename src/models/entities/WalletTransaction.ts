@@ -57,6 +57,20 @@ export class WalletTransaction extends BaseEntity {
 
   @UpdateDateColumn()
     updatedAt!: Date;
+
+  toControllerResponse = () => {
+    const oldBalance = this.accountTransaction.account.balance;
+    const transactionValue = this.accountTransaction.value;
+    return {
+      codClient: this.wallet.client?.id,
+      codAtivo: this.stock.id,
+      numberOfStocksPurchased: this.quantity,
+      oldBalance,
+      newBalance: oldBalance - transactionValue,
+      transactionValue,
+      transactionType: this.accountTransaction.type,
+    };
+  };
 }
 
 export default WalletTransaction;
