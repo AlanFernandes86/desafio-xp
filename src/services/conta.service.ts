@@ -5,23 +5,49 @@ import Client from '../models/entities/Client';
 import AccountTransaction from '../models/entities/AccountTransaction';
 import Account from '../models/entities/Account';
 import Wallet from '../models/entities/Wallet';
+import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
+import clientService from './client.service';
+
+const validateTransaction = (
+  client: Client,
+  transaction: IAccountTransaction,
+) => {
+  if (transaction.type === AccountTransactionTypes.DESPOSIT) {
+    if (transaction.value <= 0) {
+      throw new HttpError(
+        400,
+        'Não é possivel depositar valor menor ou igual a 0(zero)',
+      );
+    }
+  }
+
+  if (transaction.type === AccountTransactionTypes.WITHDRAW) {
+    if (transaction.value <= 0) {
+      throw new HttpError(
+        400,
+        'Não é possivel sacar valor menor ou igual a 0(zero)',
+      );
+    }
+
+    if (transaction.value > client.account.balance) {
+      throw new HttpError(
+        400,
+        'Saldo insuficiente.',
+      );
+    }
+  }
+};
 
 const setAccountTransaction = async (
   transaction: IAccountTransaction,
 ): Promise<AccountTransaction> => {
+  const dataSource = await getDataSource();
+
+  const client = await clientService.getClientById(transaction.codClient);
+
+  validateTransaction(client, transaction);
+
   try {
-    const dataSource = await getDataSource();
-
-    const client = await dataSource.manager.findOneOrFail(Client, {
-      where: {
-        id: transaction.codClient,
-      },
-      relations: {
-        wallet: true,
-        account: true,
-      },
-    });
-
     const accountTransaction = new AccountTransaction();
     accountTransaction.account = client.account;
     accountTransaction.value = transaction.value;
@@ -31,8 +57,10 @@ const setAccountTransaction = async (
 
     return newTransaction;
   } catch (error) {
-    console.log(error);
-    throw new HttpError(500, 'Error ao realizar transação da conta.');
+    throw new HttpError(
+      500,
+      'Error ao salvar transação da conta.',
+    );
   }
 };
 
