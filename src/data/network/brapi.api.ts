@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { type } from 'os';
 import HttpError from '../../shared/HttpError';
 import stockSymbolList from '../local/stockSymbolList';
 import IApiStock from './IApiStock';

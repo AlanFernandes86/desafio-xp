@@ -18,7 +18,7 @@ class AccountTransactionSubscriber implements EntitySubscriberInterface<AccountT
   }
 
   /**
-     * Called before AccountTransaction insertion.
+     * Called after AccountTransaction insertion.
      */
   afterInsert(event: InsertEvent<AccountTransaction>) {
     const transaction = event.entity;

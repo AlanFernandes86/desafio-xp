@@ -1,4 +1,3 @@
-import { InsertResult } from 'typeorm';
 import getDataSource from '../models/MySqlDataSource';
 import IWalletTransaction from '../interfaces/IWalletTransaction';
 import contaService from './conta.service';
@@ -7,6 +6,7 @@ import HttpError from '../shared/HttpError';
 import IAccountTransaction from '../interfaces/IAccountTransaction';
 import WalletTransaction from '../models/entities/WalletTransaction';
 import authService from './auth.service';
+import clientService from './client.service';
 import Client from '../models/entities/Client';
 import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
 
@@ -51,7 +51,7 @@ const setWalletTransaction = async (
 
   const totalTransactionAmount = stock.marketPrice * transaction.qtdeAtivo;
 
-  const client = await authService.getClientById(transaction.codClient);
+  const client = await clientService.getClientById(transaction.codClient);
 
   validateTransaction(client, stock, transaction, totalTransactionAmount);
 
