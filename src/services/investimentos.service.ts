@@ -93,4 +93,4 @@ const setWalletTransaction = async (
   }
 };
 
-export default { setWalletTransaction };
+export default { setWalletTransaction, getStockByCodAtivo };

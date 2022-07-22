@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import IWalletTransaction from '../interfaces/IWalletTransaction';
 import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
 import investimentosService from '../services/investimentos.service';
+import validateAndParserParamToInt from '../utils/validateAndParserParamToNumber';
 
 const buy = async (
   req: Request,
@@ -29,4 +30,17 @@ const sell = async (
   res.status(200).json({ ...newTransaction.toBuyAndSellResponse() });
 };
 
-export default { buy, sell };
+const getStockByCodAtivo = async (
+  req: Request,
+  res: Response,
+) => {
+  const { codAtivo } = req.params;
+
+  const id = validateAndParserParamToInt(codAtivo, 'Código do atívo inválido!');
+
+  const stock = await investimentosService.getStockByCodAtivo(id);
+
+  res.status(200).json(stock);
+};
+
+export default { buy, sell, getStockByCodAtivo };
