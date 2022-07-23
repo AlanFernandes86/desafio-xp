@@ -74,7 +74,7 @@ const getWalletByCodClient = async (codClient: number): Promise<IWallet> => {
 
     return client.wallet as IWallet;
   } catch (error) {
-    throw new HttpError(404, 'Cliente não encontrado para clientId informado.');
+    throw new HttpError(404, 'Pessoa investidora não encontrada para codClient informado.');
   }
 };
 

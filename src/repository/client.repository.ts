@@ -26,7 +26,7 @@ const setClient = async (iClient: IClient): Promise<IClient> => {
 
     return newClient as IClient;
   } catch (error) {
-    throw new HttpError(500, 'Error ao cadastrar novo cliente');
+    throw new HttpError(400, 'Username informado já existe.');
   }
 };
 
@@ -51,7 +51,7 @@ const getClientById = async (clientId: number): Promise<IClient> => {
 
     return client as IClient;
   } catch (error) {
-    throw new HttpError(404, 'Cliente não encontrado.');
+    throw new HttpError(404, 'Pessoa investidora não encontrada para o id informado.');
   }
 };
 
@@ -75,7 +75,7 @@ const getClientByUsernameAndPassword = async (
 
     return client as IClient;
   } catch (error) {
-    throw new HttpError(404, 'Cliente não encontrado.');
+    throw new HttpError(404, 'Usuário ou senha inválido.');
   }
 };
 

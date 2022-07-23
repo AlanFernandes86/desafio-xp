@@ -40,7 +40,7 @@ class WalletTransaction implements IWalletTransaction {
     const transactionType = this.accountTransaction.type;
     const isBuy = transactionType === AccountTransactionTypes.BUY;
     return {
-      codClient: this.wallet.client?.id,
+      codCliente: this.wallet.client?.id,
       codAtivo: this.stock.id,
       quantityTransacted: this.quantity,
       oldBalance,

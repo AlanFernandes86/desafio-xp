@@ -30,7 +30,7 @@ class Wallet implements IWallet {
   toGetStocksByCodClientResponse = () => (
     this.walletStocks.map((walletStock) => (
       {
-        codClient: this.client?.id,
+        codCliente: this.client?.id,
         codAtivo: walletStock.stockId,
         ativo: walletStock.stock,
         qtdeAtivo: walletStock.quantity,
