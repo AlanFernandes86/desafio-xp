@@ -1,12 +1,12 @@
-import WalletStock from '../models/entities/WalletStock';
 import IClient from './IClient';
+import IWalletStock from './IWalletStock';
 import IWalletTransaction from './IWalletTransaction';
 
 interface IWallet {
   id: number;
   client: IClient;
   walletTransactions?: IWalletTransaction[];
-  walletStocks: WalletStock[];
+  walletStocks: IWalletStock[];
   createdAt: Date;
   updatedAt: Date;
 }

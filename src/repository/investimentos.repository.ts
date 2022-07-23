@@ -8,6 +8,7 @@ import Wallet from '../models/entities/Wallet';
 import AccountTransaction from '../models/entities/AccountTransaction';
 import Client from '../models/entities/Client';
 import Account from '../models/entities/Account';
+import WalletStock from '../models/entities/WalletStock';
 
 const getStockByCodAtivo = async (codAtivo: number): Promise<IStock> => {
   try {
@@ -33,10 +34,27 @@ const setWalletTransaction = async (
     const client = new Client();
     client.id = transaction.wallet.client.id;
 
+    const walletStocks = transaction.wallet.walletStocks.map(
+      (walletStock) => {
+        const tempStock = new Stock();
+        tempStock.id = walletStock.stock.id;
+        tempStock.availableQuantity = walletStock.stock.availableQuantity;
+
+        const tempWalletStock = new WalletStock();
+        tempWalletStock.id = walletStock.id;
+        tempWalletStock.quantity = walletStock.quantity;
+        tempWalletStock.stockId = walletStock.stockId;
+        tempWalletStock.walletId = walletStock.walletId;
+        tempWalletStock.stock = tempStock;
+
+        return tempWalletStock;
+      },
+    );
+
     const wallet = new Wallet();
     wallet.id = transaction.wallet.id;
     wallet.client = client;
-    wallet.walletStocks = transaction.wallet.walletStocks;
+    wallet.walletStocks = walletStocks;
 
     const stock = new Stock();
     stock.id = transaction.stock.id;
