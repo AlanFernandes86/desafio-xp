@@ -13,8 +13,6 @@ const setAccountTransaction = async (
   const dataSource = await getDataSource();
 
   try {
-    console.log(transaction);
-
     const account = new Account();
     account.id = transaction.account.id;
     account.balance = transaction.account.balance;
@@ -30,7 +28,6 @@ const setAccountTransaction = async (
 
     return newTransaction as IAccountTransaction;
   } catch (error: any) {
-    console.log(error);
     throw new HttpError(
       500,
       error.message,

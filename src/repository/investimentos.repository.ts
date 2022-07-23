@@ -4,6 +4,8 @@ import Stock from '../models/entities/Stock';
 import HttpError from '../shared/HttpError';
 import WalletTransaction from '../models/entities/WalletTransaction';
 import IStock from '../interfaces/IStock';
+import Wallet from '../models/entities/Wallet';
+import AccountTransaction from '../models/entities/AccountTransaction';
 
 const getStockByCodAtivo = async (codAtivo: number): Promise<IStock> => {
   try {
@@ -26,8 +28,24 @@ const setWalletTransaction = async (
   try {
     const dataSource = await getDataSource();
 
+    const wallet = new Wallet();
+    wallet.id = transaction.wallet.id;
+
+    const stock = new Stock();
+    stock.id = transaction.stock.id;
+
+    const accountTransaction = new AccountTransaction();
+    accountTransaction.id = transaction.accountTransaction.id;
+
+    const walletTransaction = new WalletTransaction();
+    walletTransaction.wallet = wallet;
+    walletTransaction.stock = stock;
+    walletTransaction.accountTransaction = accountTransaction;
+    walletTransaction.quantity = transaction.quantity;
+    walletTransaction.stockMarketPrice = transaction.stock.marketPrice;
+
     const newWalletTransaction = await dataSource.manager.save(
-      transaction as WalletTransaction,
+      walletTransaction,
     );
 
     return newWalletTransaction as IWalletTransaction;
