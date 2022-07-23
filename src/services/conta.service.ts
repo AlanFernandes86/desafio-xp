@@ -4,9 +4,9 @@ import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
 import clientRepository from '../repository/client.repository';
 import contaRepository from '../repository/conta.repository';
 import Client from '../domain/Client';
-import Account from '../domain/Account';
 import Wallet from '../domain/Wallet';
 import IAccountTransactionRequest from '../interfaces/IAccountTransactionRequest';
+import IAccount from '../interfaces/IAccount';
 
 const validateTransaction = (
   client: Client,
@@ -58,16 +58,16 @@ const setAccountTransaction = async (
   return newTransaction;
 };
 
-const getAccountByCodClient = async (codClient: number): Promise<Account> => {
+const getAccountByCodClient = async (codClient: number): Promise<IAccount> => {
   const account = await contaRepository.getAccountByCodClient(codClient);
 
-  return account as Account;
+  return account as IAccount;
 };
 
 const getWalletByCodClient = async (codClient: number): Promise<Wallet> => {
   const wallet = await contaRepository.getWalletByCodClient(codClient);
 
-  return wallet as Wallet;
+  return new Wallet(wallet);
 };
 
 export default {

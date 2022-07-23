@@ -1,7 +1,7 @@
 import IClient from '../interfaces/IClient';
 import IWallet from '../interfaces/IWallet';
+import IWalletStock from '../interfaces/IWalletStock';
 import IWalletTransaction from '../interfaces/IWalletTransaction';
-import WalletStock from '../models/entities/WalletStock';
 
 class Wallet implements IWallet {
   id: number;
@@ -10,26 +10,21 @@ class Wallet implements IWallet {
 
   walletTransactions?: IWalletTransaction[] | undefined;
 
-  walletStocks: WalletStock[];
+  walletStocks: IWalletStock[];
 
   createdAt: Date;
 
   updatedAt: Date;
 
   constructor(
-    id: number,
-    client: IClient,
-    createdAt: Date,
-    updatedAt: Date,
-    walletStocks: WalletStock[],
-    walletTransactions?: IWalletTransaction[] | undefined,
+    iWallet: IWallet,
   ) {
-    this.id = id;
-    this.client = client;
-    this.walletStocks = walletStocks;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.walletTransactions = walletTransactions;
+    this.id = iWallet.id;
+    this.client = iWallet.client;
+    this.walletStocks = iWallet.walletStocks;
+    this.createdAt = iWallet.createdAt;
+    this.updatedAt = iWallet.updatedAt;
+    this.walletTransactions = iWallet.walletTransactions;
   }
 
   toGetStocksByCodClientResponse = () => (
