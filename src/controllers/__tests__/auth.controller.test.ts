@@ -4,26 +4,24 @@ import TestHelper from '../../../tests/TestHelper';
 import * as MySqlDataSource from '../../models/MySqlDataSource';
 import app from '../../app';
 
-let mockGetDataSource: jest.SpyInstance;
-
 describe('Testes da camada de autenticação do app', () => {
-  beforeAll(async () => {
-    jest.setTimeout(60000);
+  let mockGetDataSource: jest.SpyInstance;
 
+  beforeAll(async () => {
     await TestHelper.instance.setupTestDB();
 
     mockGetDataSource = jest
       .spyOn(MySqlDataSource, 'default')
       .mockReturnValue(TestHelper.instance.getDataSource());
-  });
+  }, 60000);
 
   afterAll(async () => {
-    await TestHelper.instance.clearDB();
+    await TestHelper.instance.dropDB();
     mockGetDataSource.mockClear();
-  });
+  }, 60000);
 
   it(
-    'Testa que não é possível consultar uma conta ao tentar acessar sem token',
+    '"/conta/1" - Testa que não é possível consultar uma conta ao tentar acessar sem token',
     (done) => {
       supertest(app)
         .get('/conta/1')
@@ -36,7 +34,7 @@ describe('Testes da camada de autenticação do app', () => {
   );
 
   it(
-    'Testa se é possível criar um novo cliente e retorna um token válido JWT',
+    '"/auth/new-client" - Testa se é possível criar um novo cliente e retorna um token válido JWT',
     (done) => {
       supertest(app)
         .post('/auth/new-client')
@@ -59,7 +57,7 @@ describe('Testes da camada de autenticação do app', () => {
   );
 
   it(
-    'Testa se ao efetuar login com credencias corretas retorna um token JWT',
+    '"/auth/login" - Testa se ao efetuar login com credencias corretas retorna um token JWT',
     (done) => {
       supertest(app)
         .post('/auth/login')
@@ -81,7 +79,7 @@ describe('Testes da camada de autenticação do app', () => {
   );
 
   it(
-    'Testa se ao efetuar login com credencias incorretas não permite acesso',
+    '"/auth/login" - Testa se ao efetuar login com credencias incorretas não permite acesso',
     (done) => {
       supertest(app)
         .post('/auth/login')
@@ -104,7 +102,7 @@ describe('Testes da camada de autenticação do app', () => {
   );
 
   it(
-    'Testa se ao efetuar login com credencias incorretas vazias ou faltando não permite acesso',
+    '"/auth/login" - Testa se ao efetuar login com credencias incorretas vazias ou faltando não permite acesso',
     (done) => {
       supertest(app)
         .post('/auth/login')

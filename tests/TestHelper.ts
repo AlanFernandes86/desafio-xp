@@ -1,6 +1,5 @@
-
 import { DataSource } from 'typeorm';
-import Database from 'better-sqlite3';
+import mysql from 'mysql2/promise';
 import Client from '../src/models/entities/Client';
 import Account from '../src/models/entities/Account';
 import Wallet from '../src/models/entities/Wallet';
@@ -13,6 +12,7 @@ import AccountTransaction from '../src/models/entities/AccountTransaction';
 
 class TestHelper {
   private static _instance: TestHelper;
+  private static connection: mysql.Pool;
 
   private constructor() {}
 
@@ -25,13 +25,21 @@ class TestHelper {
   private dataSource!: DataSource;
 
   async setupTestDB() {
+    TestHelper.connection = mysql.createPool({
+      host: process.env.DB_HOSTNAME,
+      user: 'root',
+      password: process.env.DB_PASSWORD,
+    });
+
+    await TestHelper.connection.execute("CREATE DATABASE desafioxptest;"); 
+
     this.dataSource = new DataSource({
       type: 'mysql',
       host: process.env.DB_HOSTNAME,
       port: Number.parseInt(process.env.DB_PORT || '3306', 10),
       username: 'root',
       password: process.env.DB_PASSWORD,
-      database: 'desafioxp-test',
+      database: 'desafioxptest',
       entities: [
         Client,
         Account,
@@ -45,19 +53,14 @@ class TestHelper {
         AccountTransactionSubscriber,
         WalletTransactionSubscriber,
       ],
+      dropSchema: true,
       synchronize: true,
     });
   }
 
-  async clearDB() {
-    const entities = this.dataSource.entityMetadatas;
-
-    await Promise.all(entities.map(async (entity) => {
-      const repository = this.dataSource.getRepository(entity.name);
-      await repository.query(`DELETE FROM ${entity.tableName}`);
-    }));
-
-    (await this.getDataSource()).destroy();
+  async dropDB() {
+    await TestHelper.connection.execute("DROP DATABASE IF EXISTS desafioxptest;");
+    await TestHelper.connection.end()
   }
 
   getDataSource = async (): Promise<DataSource> => {

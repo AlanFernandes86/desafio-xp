@@ -7,7 +7,9 @@
     "start": "npm run build && node ./dist/server.js",
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node src/server.ts' -e ts",
     "build": "tsc",
-    "test": "tsc --project tsconfig.json && jest --rootDir=dist --runInBand --detectOpenHandles"
+    "test": "node_modules/.bin/jest --watchAll --runInBand --verbose",
+    "test2": "tsc --project tsconfig.json && jest --rootDir=dist --runInBand --detectOpenHandles",
+    "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./src/typeorm-config.ts"
   },
   "dependencies": {
     "axios": "^0.27.2",
