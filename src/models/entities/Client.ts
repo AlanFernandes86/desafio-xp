@@ -10,7 +10,7 @@ import Wallet from './Wallet';
 @Entity('Client')
 class Client extends BaseEntity {
   @PrimaryGeneratedColumn()
-    id!: number;
+    id?: number;
 
   @Column()
     name!: string;

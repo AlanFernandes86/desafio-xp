@@ -6,6 +6,8 @@ import WalletTransaction from '../models/entities/WalletTransaction';
 import IStock from '../interfaces/IStock';
 import Wallet from '../models/entities/Wallet';
 import AccountTransaction from '../models/entities/AccountTransaction';
+import Client from '../models/entities/Client';
+import Account from '../models/entities/Account';
 
 const getStockByCodAtivo = async (codAtivo: number): Promise<IStock> => {
   try {
@@ -28,14 +30,27 @@ const setWalletTransaction = async (
   try {
     const dataSource = await getDataSource();
 
+    const client = new Client();
+    client.id = transaction.wallet.client.id;
+
     const wallet = new Wallet();
     wallet.id = transaction.wallet.id;
+    wallet.client = client;
+    wallet.walletStocks = transaction.wallet.walletStocks;
 
     const stock = new Stock();
     stock.id = transaction.stock.id;
+    stock.availableQuantity = transaction.stock.availableQuantity;
+
+    const account = new Account();
+    account.id = transaction.accountTransaction.account.id;
+    account.balance = transaction.accountTransaction.account.balance;
 
     const accountTransaction = new AccountTransaction();
     accountTransaction.id = transaction.accountTransaction.id;
+    accountTransaction.account = account;
+    accountTransaction.value = transaction.accountTransaction.value;
+    accountTransaction.type = transaction.accountTransaction.type;
 
     const walletTransaction = new WalletTransaction();
     walletTransaction.wallet = wallet;
@@ -50,6 +65,7 @@ const setWalletTransaction = async (
 
     return newWalletTransaction as IWalletTransaction;
   } catch (error) {
+    console.log(error);
     throw new HttpError(500, 'Error ao cadastrar transação da carteira.');
   }
 };

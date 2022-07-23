@@ -78,7 +78,7 @@ const setWalletTransaction = async (
     iWalletTransaction,
   );
 
-  return newWalletTransaction as WalletTransaction;
+  return new WalletTransaction(newWalletTransaction);
 };
 
 export default { setWalletTransaction, getStockByCodAtivo };

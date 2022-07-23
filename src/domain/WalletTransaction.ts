@@ -22,23 +22,16 @@ class WalletTransaction implements IWalletTransaction {
   updatedAt?: Date;
 
   constructor(
-    id: number,
-    quantity: number,
-    stockMarketPrice: number,
-    wallet: IWallet,
-    stock: IStock,
-    accountTransaction: IAccountTransaction,
-    createdAt?: Date,
-    updatedAt?: Date,
+    iWalletTransaction: IWalletTransaction,
   ) {
-    this.id = id;
-    this.quantity = quantity;
-    this.stockMarketPrice = stockMarketPrice;
-    this.wallet = wallet;
-    this.stock = stock;
-    this.accountTransaction = accountTransaction;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.id = iWalletTransaction.id;
+    this.quantity = iWalletTransaction.quantity;
+    this.stockMarketPrice = iWalletTransaction.stockMarketPrice;
+    this.wallet = iWalletTransaction.wallet;
+    this.stock = iWalletTransaction.stock;
+    this.accountTransaction = iWalletTransaction.accountTransaction;
+    this.createdAt = iWalletTransaction.createdAt;
+    this.updatedAt = iWalletTransaction.updatedAt;
   }
 
   toBuyAndSellResponse = () => {
