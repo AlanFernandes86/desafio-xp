@@ -14,7 +14,7 @@ describe('Testes da camada da conta do cliente', () => {
 
   const payload = {
     name: 'alan Fernandes',
-    username: 'Ajnf30',
+    username: 'AjnfXP',
     password: '123456',
   } as IClient;
 
