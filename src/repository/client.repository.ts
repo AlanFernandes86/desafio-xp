@@ -2,12 +2,11 @@ import getDataSource from '../models/MySqlDataSource';
 import IClient from '../interfaces/IClient';
 import Account from '../models/entities/Account';
 import Client from '../models/entities/Client';
-import DomainClient from '../domain/Client';
 import Wallet from '../models/entities/Wallet';
 import HttpError from '../shared/HttpError';
 import uuid from '../utils/uuid';
 
-const setClient = async (iClient: IClient): Promise<DomainClient> => {
+const setClient = async (iClient: IClient): Promise<IClient> => {
   try {
     const dataSource = await getDataSource();
 
@@ -25,13 +24,13 @@ const setClient = async (iClient: IClient): Promise<DomainClient> => {
 
     const newClient = await dataSource.manager.save(client);
 
-    return newClient.toDomainClient();
+    return newClient;
   } catch (error) {
     throw new HttpError(500, 'Error ao cadastrar novo cliente');
   }
 };
 
-const getClientById = async (clientId: number): Promise<DomainClient> => {
+const getClientById = async (clientId: number): Promise<IClient> => {
   try {
     const dataSource = await getDataSource();
 
@@ -50,7 +49,7 @@ const getClientById = async (clientId: number): Promise<DomainClient> => {
       },
     });
 
-    return client.toDomainClient();
+    return client;
   } catch (error) {
     throw new HttpError(404, 'Cliente não encontrado.');
   }
@@ -59,7 +58,7 @@ const getClientById = async (clientId: number): Promise<DomainClient> => {
 const getClientByUsernameAndPassword = async (
   username: string,
   password: string,
-): Promise<DomainClient> => {
+): Promise<IClient> => {
   try {
     const dataSource = await getDataSource();
 
@@ -74,7 +73,7 @@ const getClientByUsernameAndPassword = async (
       },
     });
 
-    return client.toDomainClient();
+    return client;
   } catch (error) {
     throw new HttpError(404, 'Cliente não encontrado.');
   }

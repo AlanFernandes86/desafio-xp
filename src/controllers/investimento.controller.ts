@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import IWalletTransaction from '../interfaces/IWalletTransaction';
+import IWalletTransactionRequest from '../interfaces/IWalletTransactionRequest';
 import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
 import investimentosService from '../services/investimentos.service';
 import validateAndParserParamToInt from '../utils/validateAndParserParamToNumber';
@@ -8,7 +8,7 @@ const buy = async (
   req: Request,
   res: Response,
 ) => {
-  const transaction: IWalletTransaction = req.body;
+  const transaction: IWalletTransactionRequest = req.body;
 
   transaction.type = AccountTransactionTypes.BUY;
 
@@ -21,7 +21,7 @@ const sell = async (
   req: Request,
   res: Response,
 ) => {
-  const transaction: IWalletTransaction = req.body;
+  const transaction: IWalletTransactionRequest = req.body;
 
   transaction.type = AccountTransactionTypes.SELL;
 

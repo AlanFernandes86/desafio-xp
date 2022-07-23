@@ -9,15 +9,19 @@ import {
 import Client from './Client';
 import WalletStock from './WalletStock';
 import WalletTransaction from './WalletTransaction';
+import DomainWallet from '../../domain/Wallet';
+import IClient from '../../interfaces/IClient';
+import IWalletTransaction from '../../interfaces/IWalletTransaction';
+import IWallet from '../../interfaces/IWallet';
 
 @Entity('Wallet')
-class Wallet extends BaseEntity {
+class Wallet extends BaseEntity implements IWallet {
   @PrimaryGeneratedColumn()
     id!: number;
 
   @OneToOne(() => Client)
   @JoinColumn()
-    client?: Client;
+    client!: Client;
 
   @OneToMany(() => WalletTransaction, (walletTransaction) => walletTransaction.wallet)
     walletTransactions?: WalletTransaction[];
@@ -33,18 +37,6 @@ class Wallet extends BaseEntity {
 
   @UpdateDateColumn()
     updatedAt!: Date;
-
-  toGetStocksByCodClientResponse = () => (
-    this.walletStocks.map((walletStock) => (
-      {
-        codClient: this.client?.id,
-        codAtivo: walletStock.stockId,
-        ativo: walletStock.stock,
-        qtdeAtivo: walletStock.quantity,
-        valor: walletStock.stock.marketPrice,
-      }
-    ))
-  );
 }
 
 export default Wallet;

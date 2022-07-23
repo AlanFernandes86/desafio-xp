@@ -5,12 +5,13 @@ import {
   OneToOne, OneToMany,
   JoinColumn,
 } from 'typeorm';
+import IAccount from '../../interfaces/IAccount';
 import StringToDecimal from '../../utils/StringToNumberTransformer';
 import AccountTransaction from './AccountTransaction';
 import Client from './Client';
 
 @Entity('Account')
-class Account extends BaseEntity {
+class Account extends BaseEntity implements IAccount {
   @PrimaryGeneratedColumn()
     id!: number;
 
@@ -24,7 +25,7 @@ class Account extends BaseEntity {
 
   @OneToOne(() => Client)
   @JoinColumn()
-    client?: Client;
+    client!: Client;
 
   @OneToMany(
     () => AccountTransaction,

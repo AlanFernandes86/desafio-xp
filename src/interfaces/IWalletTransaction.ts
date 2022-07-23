@@ -1,11 +1,16 @@
-import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
+import IAccountTransaction from './IAccountTransaction';
+import IStock from './IStock';
+import IWallet from './IWallet';
 
 interface IWalletTransaction {
-  id?: number,
-  codClient: number,
-  codAtivo: number,
-  qtdeAtivo: number,
-  type: AccountTransactionTypes,
+  id?: number;
+  quantity: number;
+  stockMarketPrice: number;
+  wallet: IWallet;
+  stock: IStock;
+  accountTransaction: IAccountTransaction;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export default IWalletTransaction;

@@ -12,7 +12,7 @@ const login = async (iClient: IClient): Promise<Client> => {
     iClient.password,
   );
 
-  return client;
+  return client as Client;
 };
 
 export default {

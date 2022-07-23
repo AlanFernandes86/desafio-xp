@@ -3,22 +3,23 @@ import contaService from '../services/conta.service';
 import IAccountTransaction from '../interfaces/IAccountTransaction';
 import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
 import validateAndParserParamToInt from '../utils/validateAndParserParamToNumber';
+import IAccountTransactionRequest from '../interfaces/IAccountTransactionRequest';
 
 const deposit = async (
   req: Request,
   res: Response,
 ) => {
-  const transaction: IAccountTransaction = req.body;
+  const transaction: IAccountTransactionRequest = req.body;
 
   transaction.type = AccountTransactionTypes.DESPOSIT;
 
   const newTransaction = await contaService.setAccountTransaction(transaction);
 
   const result = {
-    clientId: transaction.codClient,
+    clientId: transaction.codCliente,
     accountId: newTransaction.account.id,
     oldBalance: +newTransaction.account.balance,
-    newBalance: +newTransaction.account.balance + +transaction.value,
+    newBalance: +newTransaction.account.balance + +transaction.valor,
   };
 
   res.status(200).json({ ...result });
@@ -28,17 +29,17 @@ const withdraw = async (
   req: Request,
   res: Response,
 ) => {
-  const transaction: IAccountTransaction = req.body;
+  const transaction: IAccountTransactionRequest = req.body;
 
   transaction.type = AccountTransactionTypes.WITHDRAW;
 
   const newTransaction = await contaService.setAccountTransaction(transaction);
 
   const result = {
-    clientId: transaction.codClient,
+    clientId: transaction.codCliente,
     accountId: newTransaction.account.id,
     oldBalance: +newTransaction.account.balance,
-    newBalance: +newTransaction.account.balance - +transaction.value,
+    newBalance: +newTransaction.account.balance - +transaction.valor,
   };
 
   res.status(200).json({ ...result });

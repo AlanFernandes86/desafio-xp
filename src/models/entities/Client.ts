@@ -7,9 +7,12 @@ import {
 import Account from './Account';
 import Wallet from './Wallet';
 import DomainClient from '../../domain/Client';
+import IAccount from '../../interfaces/IAccount';
+import IWallet from '../../interfaces/IWallet';
+import IClient from '../../interfaces/IClient';
 
 @Entity('Client')
-class Client extends BaseEntity {
+class Client extends BaseEntity implements IClient {
   @PrimaryGeneratedColumn()
     id!: number;
 
@@ -43,19 +46,6 @@ class Client extends BaseEntity {
 
   @UpdateDateColumn()
     updatedAt!: Date;
-
-  toDomainClient = (): DomainClient => (
-    new DomainClient(
-      this.id,
-      this.name,
-      this.password,
-      this.username,
-      this.account,
-      this.wallet,
-      this.createdAt,
-      this.updatedAt,
-    )
-  );
 }
 
 export default Client;

@@ -7,23 +7,24 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import IStock from '../../interfaces/IStock';
 import StringToDecimal from '../../utils/StringToNumberTransformer';
 import WalletStock from './WalletStock';
 import WalletTransaction from './WalletTransaction';
 
 @Entity('Stock')
-class Stock extends BaseEntity {
+class Stock extends BaseEntity implements IStock {
   @PrimaryGeneratedColumn()
     id!: number;
 
   @OneToMany(() => WalletTransaction, (walletTransaction) => walletTransaction.stock)
-    walletTransactions!: WalletTransaction[];
+    walletTransactions?: WalletTransaction[];
 
   @OneToMany(
     () => WalletStock,
     (walletStock) => walletStock.stock,
   )
-    walletStocks!: WalletStock[];
+    walletStocks?: WalletStock[];
 
   @Column()
     codAcao!: string;
@@ -94,7 +95,7 @@ class Stock extends BaseEntity {
     availableQuantity!: number;
 
   @Column()
-    companyLogoUrl?: string;
+    companyLogoUrl!: string;
 
   @CreateDateColumn()
     createdAt!: Date;
