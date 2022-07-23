@@ -12,7 +12,7 @@ import Stock from './Stock';
 import Wallet from './Wallet';
 
 @Entity('WalletTransaction')
-export class WalletTransaction extends BaseEntity implements IWalletTransaction {
+export class WalletTransaction extends BaseEntity {
   @PrimaryGeneratedColumn()
     id!: number;
 

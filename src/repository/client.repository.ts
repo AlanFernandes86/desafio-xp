@@ -24,7 +24,7 @@ const setClient = async (iClient: IClient): Promise<IClient> => {
 
     const newClient = await dataSource.manager.save(client);
 
-    return newClient;
+    return newClient as IClient;
   } catch (error) {
     throw new HttpError(500, 'Error ao cadastrar novo cliente');
   }
@@ -49,7 +49,7 @@ const getClientById = async (clientId: number): Promise<IClient> => {
       },
     });
 
-    return client;
+    return client as IClient;
   } catch (error) {
     throw new HttpError(404, 'Cliente não encontrado.');
   }
@@ -73,7 +73,7 @@ const getClientByUsernameAndPassword = async (
       },
     });
 
-    return client;
+    return client as IClient;
   } catch (error) {
     throw new HttpError(404, 'Cliente não encontrado.');
   }

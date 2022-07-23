@@ -5,13 +5,13 @@ import clientRepository from '../repository/client.repository';
 const setClient = async (iClient: IClient): Promise<Client> => {
   const newClient = await clientRepository.setClient(iClient);
 
-  return newClient as Client;
+  return new Client(newClient);
 };
 
 const getClientById = async (clientId: number): Promise<Client> => {
   const client = await clientRepository.getClientById(clientId);
 
-  return client as Client;
+  return new Client(client);
 };
 
 export default {

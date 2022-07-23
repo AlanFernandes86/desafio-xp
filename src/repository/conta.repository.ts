@@ -1,11 +1,11 @@
 import getDataSource from '../models/MySqlDataSource';
 import IAccountTransaction from '../interfaces/IAccountTransaction';
 import HttpError from '../shared/HttpError';
-import Client from '../models/entities/Client';
-import AccountTransaction from '../models/entities/AccountTransaction';
-import Account from '../models/entities/Account';
 import IAccount from '../interfaces/IAccount';
 import IWallet from '../interfaces/IWallet';
+import AccountTransaction from '../models/entities/AccountTransaction';
+import Client from '../models/entities/Client';
+import Account from '../models/entities/Account';
 
 const setAccountTransaction = async (
   transaction: IAccountTransaction,
@@ -13,12 +13,24 @@ const setAccountTransaction = async (
   const dataSource = await getDataSource();
 
   try {
+    console.log(transaction);
+
+    const account = new Account();
+    account.id = transaction.account.id;
+    account.balance = transaction.account.balance;
+
+    const accountTransaction = new AccountTransaction();
+    accountTransaction.account = account;
+    accountTransaction.value = transaction.value;
+    accountTransaction.type = transaction.type;
+
     const newTransaction = await dataSource.manager.save(
-      transaction as AccountTransaction,
+      accountTransaction,
     );
 
-    return newTransaction;
+    return newTransaction as IAccountTransaction;
   } catch (error: any) {
+    console.log(error);
     throw new HttpError(
       500,
       error.message,
@@ -39,7 +51,7 @@ const getAccountByCodClient = async (codClient: number): Promise<IAccount> => {
       },
     });
 
-    return client.account;
+    return client.account as IAccount;
   } catch (error) {
     throw new HttpError(404, 'Cliente não encontrado para clientId informado.');
   }
@@ -63,7 +75,7 @@ const getWalletByCodClient = async (codClient: number): Promise<IWallet> => {
       },
     });
 
-    return client.wallet;
+    return client.wallet as IWallet;
   } catch (error) {
     throw new HttpError(404, 'Cliente não encontrado para clientId informado.');
   }

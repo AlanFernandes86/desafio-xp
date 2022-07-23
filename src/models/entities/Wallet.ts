@@ -9,13 +9,9 @@ import {
 import Client from './Client';
 import WalletStock from './WalletStock';
 import WalletTransaction from './WalletTransaction';
-import DomainWallet from '../../domain/Wallet';
-import IClient from '../../interfaces/IClient';
-import IWalletTransaction from '../../interfaces/IWalletTransaction';
-import IWallet from '../../interfaces/IWallet';
 
 @Entity('Wallet')
-class Wallet extends BaseEntity implements IWallet {
+class Wallet extends BaseEntity {
   @PrimaryGeneratedColumn()
     id!: number;
 

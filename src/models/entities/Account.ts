@@ -11,7 +11,7 @@ import AccountTransaction from './AccountTransaction';
 import Client from './Client';
 
 @Entity('Account')
-class Account extends BaseEntity implements IAccount {
+class Account extends BaseEntity {
   @PrimaryGeneratedColumn()
     id!: number;
 

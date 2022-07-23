@@ -7,13 +7,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import IStock from '../../interfaces/IStock';
 import StringToDecimal from '../../utils/StringToNumberTransformer';
 import WalletStock from './WalletStock';
 import WalletTransaction from './WalletTransaction';
 
 @Entity('Stock')
-class Stock extends BaseEntity implements IStock {
+class Stock extends BaseEntity {
   @PrimaryGeneratedColumn()
     id!: number;
 

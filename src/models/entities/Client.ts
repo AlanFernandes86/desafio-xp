@@ -6,13 +6,9 @@ import {
 } from 'typeorm';
 import Account from './Account';
 import Wallet from './Wallet';
-import DomainClient from '../../domain/Client';
-import IAccount from '../../interfaces/IAccount';
-import IWallet from '../../interfaces/IWallet';
-import IClient from '../../interfaces/IClient';
 
 @Entity('Client')
-class Client extends BaseEntity implements IClient {
+class Client extends BaseEntity {
   @PrimaryGeneratedColumn()
     id!: number;
 
