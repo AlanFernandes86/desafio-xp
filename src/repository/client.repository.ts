@@ -25,8 +25,8 @@ const setClient = async (iClient: IClient): Promise<IClient> => {
     const newClient = await dataSource.manager.save(client);
 
     return newClient as IClient;
-  } catch (error) {
-    throw new HttpError(400, 'Username informado já existe.');
+  } catch (error: any) {
+    throw new HttpError(500, error.message);
   }
 };
 

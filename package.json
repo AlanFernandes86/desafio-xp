@@ -7,7 +7,7 @@
     "start": "npm run build && node ./dist/server.js",
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node src/server.ts' -e ts",
     "build": "tsc",
-    "test": "tsc --project tsconfig.json && jest --rootDir=dist --detectOpenHandles"
+    "test": "tsc --project tsconfig.json && jest --rootDir=dist --runInBand --detectOpenHandles"
   },
   "dependencies": {
     "axios": "^0.27.2",
