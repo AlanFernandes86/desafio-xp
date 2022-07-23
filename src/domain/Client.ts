@@ -21,23 +21,16 @@ class Client implements IClient {
   updatedAt: Date;
 
   constructor(
-    id: number | undefined,
-    name: string,
-    username: string,
-    password: string,
-    account: IAccount,
-    wallet: IWallet,
-    createdAt: Date,
-    updatedAt: Date,
+    client: IClient,
   ) {
-    this.id = id;
-    this.name = name;
-    this.username = username;
-    this.password = password;
-    this.account = account;
-    this.wallet = wallet;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.id = client.id;
+    this.name = client.name;
+    this.username = client.username;
+    this.password = client.password;
+    this.account = client.account;
+    this.wallet = client.wallet;
+    this.createdAt = client.createdAt;
+    this.updatedAt = client.updatedAt;
   }
 
   toIClientPayload = (): IClientPayload => (

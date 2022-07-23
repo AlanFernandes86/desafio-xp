@@ -16,7 +16,7 @@ const setClient = async (iClient: IClient): Promise<IClient> => {
     const wallet = new Wallet();
 
     const client = new Client();
-    client.name = iClient.name;
+    client.name = iClient.name || '';
     client.username = iClient.username;
     client.password = uuid.getPasswordHash(iClient.password);
     client.account = account;
