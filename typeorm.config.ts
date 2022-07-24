@@ -9,7 +9,7 @@ const config: DataSourceOptions = {
   database: process.env.DB_NAME,
   entities: ['./src/models/entities/**.ts'],
   subscribers: ['./src/models/subscribers/**.ts'],
-  synchronize: true,
+  synchronize: false,
 };
 
 export default config;
