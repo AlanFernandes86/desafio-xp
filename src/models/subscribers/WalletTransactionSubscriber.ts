@@ -38,7 +38,6 @@ class WalletTransactionSubscriber implements EntitySubscriberInterface<WalletTra
       await event.manager.upsert(
         WalletStock,
         {
-          id: walletStock?.id,
           stock: transaction.stock,
           wallet: transaction.wallet,
           quantity: (walletStock?.quantity || 0) + transaction.quantity,
@@ -61,7 +60,6 @@ class WalletTransactionSubscriber implements EntitySubscriberInterface<WalletTra
       await event.manager.upsert(
         WalletStock,
         {
-          id: walletStock?.id,
           stock: transaction.stock,
           wallet: transaction.wallet,
           quantity: (walletStock?.quantity || 0) - transaction.quantity,

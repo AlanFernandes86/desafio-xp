@@ -41,7 +41,6 @@ const setWalletTransaction = async (
         tempStock.availableQuantity = walletStock.stock.availableQuantity;
 
         const tempWalletStock = new WalletStock();
-        tempWalletStock.id = walletStock.id;
         tempWalletStock.quantity = walletStock.quantity;
         tempWalletStock.stockId = walletStock.stockId;
         tempWalletStock.walletId = walletStock.walletId;
@@ -77,11 +76,23 @@ const setWalletTransaction = async (
     walletTransaction.quantity = transaction.quantity;
     walletTransaction.stockMarketPrice = transaction.stock.marketPrice;
 
-    const newWalletTransaction = await dataSource.manager.save(
-      walletTransaction,
-    );
+    const { raw } = await dataSource
+      .createQueryBuilder()
+      .insert()
+      .into(WalletTransaction)
+      .values({
+        wallet,
+        stock,
+        accountTransaction,
+        quantity: transaction.quantity,
+        stockMarketPrice: transaction.stock.marketPrice,
+      })
+      .execute();
 
-    return newWalletTransaction as IWalletTransaction;
+    const newTransaction = transaction;
+    newTransaction.id = raw;
+
+    return newTransaction;
   } catch (error) {
     console.log(error);
     throw new HttpError(500, 'Error ao cadastrar transação da carteira.');

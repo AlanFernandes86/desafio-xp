@@ -9,7 +9,6 @@ import Stock from '../src/models/entities/Stock';
 import AccountTransactionSubscriber from '../src/models/subscribers/AccountTransactionSubscriber';
 import WalletTransactionSubscriber from '../src/models/subscribers/WalletTransactionSubscriber';
 import AccountTransaction from '../src/models/entities/AccountTransaction';
-import initializeDatabase from '../src/helpers/initializeDatabase';
 import 'dotenv/config';
 
 class TestHelper {
