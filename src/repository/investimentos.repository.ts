@@ -10,6 +10,18 @@ import Client from '../models/entities/Client';
 import Account from '../models/entities/Account';
 import WalletStock from '../models/entities/WalletStock';
 
+const getStocks = async (): Promise<IStock[]> => {
+  try {
+    const dataSource = await getDataSource();
+
+    const stocks = await dataSource.manager.find(Stock);
+
+    return stocks as IStock[];
+  } catch (error) {
+    throw new HttpError(500, 'Error ao consultar o banco de dados.');
+  }
+};
+
 const getStockByCodAtivo = async (codAtivo: number): Promise<IStock> => {
   try {
     const dataSource = await getDataSource();
@@ -99,4 +111,8 @@ const setWalletTransaction = async (
   }
 };
 
-export default { setWalletTransaction, getStockByCodAtivo };
+export default {
+  setWalletTransaction,
+  getStockByCodAtivo,
+  getStocks,
+};
