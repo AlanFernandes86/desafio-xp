@@ -9,10 +9,9 @@ const initializeDatabase = async () => {
 
   if (stocks.length === 0) {
     try {
-      console.log('Banco de dados vazio! Inserindo dados das ações no banco de dados, aguarde...');
+      console.log('Banco de dados vazio! Inserindo dados das ações no banco de dados.');
 
       const stockList = await getFullStockData();
-
       const stocksWithQuantities = stockList.map(
         (stock) => {
           const stockSymbol = stockSymbolList.find(({ symbol }) => symbol === stock.symbol);
