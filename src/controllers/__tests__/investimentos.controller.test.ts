@@ -138,4 +138,19 @@ describe('Testes da camada de investimentos da aplicação', () => {
         });
     },
   );
+
+  it(
+    '"/investimentos/ativos/:codAtivo" - Testa se é possível consultar um ativo pelo codAtivo.',
+    (done) => {
+      supertest(app)
+        .get('/investimentos/ativos/10')
+        .set('Authorization', token)
+        .then((response: Response) => {
+          expect(response.body.id).toBe(10);
+          expect(response.body.codAcao).toBe('SOMA3');
+          expect(response.statusCode).toBe(200);
+          done();
+        });
+    },
+  );
 });
