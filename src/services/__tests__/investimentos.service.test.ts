@@ -4,7 +4,7 @@ import TestHelper from '../../../tests/TestHelperSQLite';
 import initializeDatabase from '../../helpers/initializeDatabase';
 import brapApiMock from '../../../tests/brap.api.mock';
 
-describe('Testes da camada de investimentos da aplicação', () => {
+describe('Testes da camada de service(investimentos) da aplicação', () => {
   let mockGetDataSource: jest.SpyInstance;
   let mockBrapApi: jest.SpyInstance;
 

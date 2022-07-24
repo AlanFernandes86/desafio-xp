@@ -13,7 +13,7 @@ import initializeDatabase from '../../helpers/initializeDatabase';
 import brapApiMock from '../../../tests/brap.api.mock';
 import IAccountTransactionRequest from '../../interfaces/IAccountTransactionRequest';
 
-describe('Testes da camada de investimentos da aplicação', () => {
+describe('Testes da camada de controller(investimentos) da aplicação', () => {
   let mockGetDataSource: jest.SpyInstance;
   let mockBrapApi: jest.SpyInstance;
   let newClient: Client;
@@ -147,7 +147,7 @@ describe('Testes da camada de investimentos da aplicação', () => {
         .set('Authorization', token)
         .then((response: Response) => {
           expect(response.body.id).toBe(10);
-          expect(response.body.codAcao).toBe('SOMA3');
+          expect(response.body.codAcao).toBe('BBSE3');
           expect(response.statusCode).toBe(200);
           done();
         });
