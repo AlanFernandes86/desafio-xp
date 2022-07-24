@@ -67,6 +67,44 @@ describe('Testes da camada da conta do cliente', () => {
   );
 
   it(
+    '"/conta/deposito" - Testa que não é possível fazer depósito com o número 0(zero).',
+    (done) => {
+      supertest(app)
+        .post('/conta/deposito')
+        .set('Authorization', token)
+        .send(
+          {
+            codCliente: newClient.id,
+            valor: 0,
+          },
+        )
+        .then((response: Response) => {
+          expect(response.statusCode).toBe(400);
+          done();
+        });
+    },
+  );
+
+  it(
+    '"/conta/deposito" - Testa que não é possível fazer depósito com número negativo.',
+    (done) => {
+      supertest(app)
+        .post('/conta/deposito')
+        .set('Authorization', token)
+        .send(
+          {
+            codCliente: newClient.id,
+            valor: -1,
+          },
+        )
+        .then((response: Response) => {
+          expect(response.statusCode).toBe(400);
+          done();
+        });
+    },
+  );
+
+  it(
     '"/conta/saque" - Testa se é possível fazer saque em uma conta.',
     (done) => {
       supertest(app)
@@ -145,6 +183,46 @@ describe('Testes da camada da conta do cliente', () => {
         )
         .then((response: Response) => {
           expect(response.body.message).toBe('Saldo insuficiente.');
+          expect(response.statusCode).toBe(400);
+          done();
+        });
+    },
+  );
+
+  it(
+    '"/conta/saque" - Testa que não é possível fazer saque com o número 0(zero).',
+    (done) => {
+      supertest(app)
+        .post('/conta/saque')
+        .set('Authorization', token)
+        .send(
+          {
+            codCliente: newClient.id,
+            valor: 0,
+          },
+        )
+        .then((response: Response) => {
+          expect(response.body.message).toBe('Não é possivel sacar valor menor ou igual a 0(zero)');
+          expect(response.statusCode).toBe(400);
+          done();
+        });
+    },
+  );
+
+  it(
+    '"/conta/saque" - Testa que não é possível fazer saque com o número negativo.',
+    (done) => {
+      supertest(app)
+        .post('/conta/saque')
+        .set('Authorization', token)
+        .send(
+          {
+            codCliente: newClient.id,
+            valor: -1,
+          },
+        )
+        .then((response: Response) => {
+          expect(response.body.message).toBe('Não é possivel sacar valor menor ou igual a 0(zero)');
           expect(response.statusCode).toBe(400);
           done();
         });
