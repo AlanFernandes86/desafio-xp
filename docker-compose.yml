@@ -32,7 +32,7 @@ services:
       MYSQL_PASSWORD: $DB_PASSWORD
       MYSQL_ROOT_PASSWORD: $DB_PASSWORD
     volumes:
-      - db:/var/lib/mysql
+      - db2:/var/lib/mysql
 
 volumes:
-  db:
+  db2:

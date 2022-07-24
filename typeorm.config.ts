@@ -1,4 +1,13 @@
 import { DataSourceOptions } from 'typeorm';
+import Account from './src/models/entities/Account';
+import AccountTransaction from './src/models/entities/AccountTransaction';
+import Client from './src/models/entities/Client';
+import Stock from './src/models/entities/Stock';
+import Wallet from './src/models/entities/Wallet';
+import WalletStock from './src/models/entities/WalletStock';
+import WalletTransaction from './src/models/entities/WalletTransaction';
+import AccountTransactionSubscriber from './src/models/subscribers/AccountTransactionSubscriber';
+import WalletTransactionSubscriber from './src/models/subscribers/WalletTransactionSubscriber';
 
 const config: DataSourceOptions = {
   type: 'mysql',
@@ -7,9 +16,20 @@ const config: DataSourceOptions = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: ['./src/models/entities/**.ts'],
-  subscribers: ['./src/models/subscribers/**.ts'],
-  synchronize: false,
+  entities: [
+    Client,
+    Account,
+    AccountTransaction,
+    Wallet,
+    WalletTransaction,
+    WalletStock,
+    Stock,
+  ],
+  subscribers: [
+    AccountTransactionSubscriber,
+    WalletTransactionSubscriber,
+  ],
+  synchronize: true,
 };
 
 export default config;
