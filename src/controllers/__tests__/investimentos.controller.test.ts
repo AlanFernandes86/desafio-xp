@@ -36,6 +36,7 @@ describe('Testes da camada de controller(investimentos) da aplicação', () => {
       .spyOn(brapi, 'default')
       .mockReturnValue(brapApiMock());
 
+    await initializeDatabase();
     newClient = await clientService.setClient(payload);
     token = generateTokenJWT(newClient.toIClientPayload());
 
@@ -46,7 +47,6 @@ describe('Testes da camada de controller(investimentos) da aplicação', () => {
     } as IAccountTransactionRequest;
 
     await contaService.setAccountTransaction(deposito);
-    await initializeDatabase();
   }, 60000);
 
   afterAll(async () => {
