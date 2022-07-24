@@ -31,7 +31,7 @@ const listStocksSeparately = async (codCliente: number): Promise<IStockListSepar
   );
 
   const available = stocks.filter(
-    ({ id }) => purchased.some((stock) => stock.id === id),
+    ({ id }) => purchased.every((stock) => stock.id !== id),
   );
 
   return {
