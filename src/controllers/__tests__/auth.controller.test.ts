@@ -1,10 +1,10 @@
 import supertest, { Response } from 'supertest';
 import jwt from 'jsonwebtoken';
-import TestHelper from '../../../tests/TestHelper';
+import TestHelper from '../../../tests/TestHelperSQLite';
 import * as MySqlDataSource from '../../models/MySqlDataSource';
 import app from '../../app';
 
-describe('Testes da camada de autenticação do app', () => {
+describe('Testes da camada de controller(autenticação) do app', () => {
   let mockGetDataSource: jest.SpyInstance;
 
   beforeAll(async () => {

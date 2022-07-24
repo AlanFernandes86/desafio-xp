@@ -1,5 +1,5 @@
 import supertest, { Response } from 'supertest';
-import TestHelper from '../../../tests/TestHelper';
+import TestHelper from '../../../tests/TestHelperSQLite';
 import * as MySqlDataSource from '../../models/MySqlDataSource';
 import * as brapi from '../../data/network/brapi.api';
 import app from '../../app';
@@ -13,7 +13,7 @@ import initializeDatabase from '../../helpers/initializeDatabase';
 import brapApiMock from '../../../tests/brap.api.mock';
 import IAccountTransactionRequest from '../../interfaces/IAccountTransactionRequest';
 
-describe('Testes da camada de investimentos da aplicação', () => {
+describe('Testes da camada de controller(investimentos) da aplicação', () => {
   let mockGetDataSource: jest.SpyInstance;
   let mockBrapApi: jest.SpyInstance;
   let newClient: Client;
@@ -26,6 +26,8 @@ describe('Testes da camada de investimentos da aplicação', () => {
   } as IClient;
 
   beforeAll(async () => {
+    jest.setTimeout(60000);
+
     await TestHelper.instance.setupTestDB();
 
     mockGetDataSource = jest
@@ -36,6 +38,7 @@ describe('Testes da camada de investimentos da aplicação', () => {
       .spyOn(brapi, 'default')
       .mockReturnValue(brapApiMock());
 
+    await initializeDatabase();
     newClient = await clientService.setClient(payload);
     token = generateTokenJWT(newClient.toIClientPayload());
 
@@ -46,7 +49,6 @@ describe('Testes da camada de investimentos da aplicação', () => {
     } as IAccountTransactionRequest;
 
     await contaService.setAccountTransaction(deposito);
-    await initializeDatabase();
   }, 60000);
 
   afterAll(async () => {
@@ -65,7 +67,7 @@ describe('Testes da camada de investimentos da aplicação', () => {
           {
             codCliente: newClient.id,
             codAtivo: 10,
-            qtdeAtivo: 1000,
+            qtdeAtivo: 1500,
           },
         )
         .then((response: Response) => {
@@ -147,8 +149,48 @@ describe('Testes da camada de investimentos da aplicação', () => {
         .set('Authorization', token)
         .then((response: Response) => {
           expect(response.body.id).toBe(10);
-          expect(response.body.codAcao).toBe('SOMA3');
+          expect(response.body.codAcao).toBe('BBSE3');
           expect(response.statusCode).toBe(200);
+          done();
+        });
+    },
+  );
+
+  it(
+    '"/investimentos/ativos" - Testa se rota retorna status 200.',
+    (done) => {
+      supertest(app)
+        .get('/investimentos/ativos')
+        .set('Authorization', token)
+        .then((response: Response) => {
+          expect(response.statusCode).toBe(200);
+          done();
+        });
+    },
+  );
+
+  it(
+    '"/investimentos/ativos" - Testa se a rota retorna um json com duas chaves: "purchased" e "available"',
+    (done) => {
+      supertest(app)
+        .get('/investimentos/ativos')
+        .set('Authorization', token)
+        .then((response: Response) => {
+          expect(response.body).toHaveProperty('purchased');
+          expect(response.body).toHaveProperty('available');
+          done();
+        });
+    },
+  );
+
+  it(
+    '"/investimentos/ativos" - Testa se na chave "purchased" de cada ação possui a propriedade "purchasedQuantity"',
+    (done) => {
+      supertest(app)
+        .get('/investimentos/ativos')
+        .set('Authorization', token)
+        .then((response: Response) => {
+          expect(response.body.purchased[0]).toHaveProperty('purchasedQuantity');
           done();
         });
     },

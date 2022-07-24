@@ -5,7 +5,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import StringToDecimal from '../../utils/StringToNumberTransformer';
-import AccountTransactionTypes from '../enums/AccountTransactionTypes';
+// import AccountTransactionTypes from '../enums/AccountTransactionTypes';
 import Account from './Account';
 
 @Entity('AccountTransaction')
@@ -24,10 +24,7 @@ class AccountTransaction extends BaseEntity {
   @ManyToOne(() => Account, (account) => account.accountTransactions)
     account!: Account;
 
-  @Column({
-    type: 'enum',
-    enum: AccountTransactionTypes,
-  })
+  @Column()
     type!: string;
 
   @CreateDateColumn()

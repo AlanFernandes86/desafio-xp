@@ -9,11 +9,35 @@ import IWalletTransaction from '../interfaces/IWalletTransaction';
 import IStock from '../interfaces/IStock';
 import WalletTransaction from '../domain/WalletTransaction';
 import Client from '../domain/Client';
+import IStockListSeparatelyReponse from '../interfaces/IStockListSeparatelyResponse';
 
 const getStockByCodAtivo = async (codAtivo: number): Promise<IStock> => {
   const stock = investimentosRepository.getStockByCodAtivo(codAtivo);
 
   return stock;
+};
+
+const listStocksSeparately = async (codCliente: number): Promise<IStockListSeparatelyReponse> => {
+  const clientWallet = await contaRepository.getWalletByCodClient(codCliente);
+  const stocks = await investimentosRepository.getStocks();
+
+  const purchased = clientWallet.walletStocks.map(
+    (walletStock) => (
+      {
+        ...walletStock.stock,
+        purchasedQuantity: walletStock.quantity,
+      }
+    ),
+  );
+
+  const available = stocks.filter(
+    ({ id }) => purchased.every((stock) => stock.id !== id),
+  );
+
+  return {
+    purchased,
+    available,
+  } as IStockListSeparatelyReponse;
 };
 
 const validateTransaction = (
@@ -81,4 +105,8 @@ const setWalletTransaction = async (
   return new WalletTransaction(newWalletTransaction);
 };
 
-export default { setWalletTransaction, getStockByCodAtivo };
+export default {
+  setWalletTransaction,
+  getStockByCodAtivo,
+  listStocksSeparately,
+};
