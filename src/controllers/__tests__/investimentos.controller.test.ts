@@ -26,6 +26,8 @@ describe('Testes da camada de controller(investimentos) da aplicação', () => {
   } as IClient;
 
   beforeAll(async () => {
+    jest.setTimeout(60000);
+
     await TestHelper.instance.setupTestDB();
 
     mockGetDataSource = jest
@@ -65,7 +67,7 @@ describe('Testes da camada de controller(investimentos) da aplicação', () => {
           {
             codCliente: newClient.id,
             codAtivo: 10,
-            qtdeAtivo: 1000,
+            qtdeAtivo: 1500,
           },
         )
         .then((response: Response) => {
@@ -174,21 +176,21 @@ describe('Testes da camada de controller(investimentos) da aplicação', () => {
         .get('/investimentos/ativos')
         .set('Authorization', token)
         .then((response: Response) => {
-          expect(response.body).toHaveProperty('purchased', 'available');
+          expect(response.body).toHaveProperty('purchased');
+          expect(response.body).toHaveProperty('available');
           done();
         });
     },
   );
 
   it(
-    '"/investimentos/ativos" - Testa se na chave "purchased" cada ação possuí a propriedade "purchasedQuantity"',
+    '"/investimentos/ativos" - Testa se na chave "purchased" de cada ação possui a propriedade "purchasedQuantity"',
     (done) => {
       supertest(app)
         .get('/investimentos/ativos')
         .set('Authorization', token)
         .then((response: Response) => {
           expect(response.body.purchased[0]).toHaveProperty('purchasedQuantity');
-          expect(response.body.purchased[1]).toHaveProperty('purchasedQuantity');
           done();
         });
     },

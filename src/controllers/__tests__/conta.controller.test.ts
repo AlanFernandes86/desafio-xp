@@ -12,7 +12,7 @@ import AccountTransactionTypes from '../../models/enums/AccountTransactionTypes'
 import initializeDatabase from '../../helpers/initializeDatabase';
 import brapApiMock from '../../../tests/brap.api.mock';
 
-describe('Testes da camada de conta do cliente', () => {
+describe('Testes da camada de controller(conta) do cliente', () => {
   let mockGetDataSource: jest.SpyInstance;
   let mockBrapApi: jest.SpyInstance;
   let newClient: Client;
