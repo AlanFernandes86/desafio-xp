@@ -43,4 +43,20 @@ const getStockByCodAtivo = async (
   res.status(200).json(stock);
 };
 
-export default { buy, sell, getStockByCodAtivo };
+const listStocksSeparately = async (
+  req: Request,
+  res: Response,
+) => {
+  const { id } = res.locals.payload;
+
+  const listStocks = await investimentosService.listStocksSeparately(id);
+
+  res.status(200).json(listStocks);
+};
+
+export default {
+  buy,
+  sell,
+  getStockByCodAtivo,
+  listStocksSeparately,
+};
