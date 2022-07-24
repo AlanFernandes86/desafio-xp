@@ -11,7 +11,7 @@ import Wallet from './Wallet';
 @Entity('WalletStock')
 class WalletStock extends BaseEntity {
   @PrimaryGeneratedColumn()
-    id!: number;
+    id?: number;
 
   @Column()
     stockId!: number;

@@ -1,33 +1,25 @@
-import getDataSource from '../models/MySqlDataSource';
-import IWalletTransaction from '../interfaces/IWalletTransaction';
-import contaService from './conta.service';
-import Stock from '../models/entities/Stock';
+import clientRepository from '../repository/client.repository';
+import investimentosRepository from '../repository/investimentos.repository';
+import contaRepository from '../repository/conta.repository';
 import HttpError from '../shared/HttpError';
-import IAccountTransaction from '../interfaces/IAccountTransaction';
-import WalletTransaction from '../models/entities/WalletTransaction';
-import clientService from './client.service';
-import Client from '../models/entities/Client';
 import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
+import IWalletTransactionRequest from '../interfaces/IWalletTransactionRequest';
+import IAccountTransaction from '../interfaces/IAccountTransaction';
+import IWalletTransaction from '../interfaces/IWalletTransaction';
+import IStock from '../interfaces/IStock';
+import WalletTransaction from '../domain/WalletTransaction';
+import Client from '../domain/Client';
 
-const getStockByCodAtivo = async (codAtivo: number): Promise<Stock> => {
-  try {
-    const dataSource = await getDataSource();
-    const stock = await dataSource.manager.findOneOrFail(Stock, {
-      where: {
-        id: codAtivo,
-      },
-    });
+const getStockByCodAtivo = async (codAtivo: number): Promise<IStock> => {
+  const stock = investimentosRepository.getStockByCodAtivo(codAtivo);
 
-    return stock;
-  } catch (error) {
-    throw new HttpError(404, 'Ativo não encontrado.');
-  }
+  return stock;
 };
 
 const validateTransaction = (
   client: Client,
-  stock: Stock,
-  transaction: IWalletTransaction,
+  stock: IStock,
+  transaction: IWalletTransactionRequest,
   totalTransactionAmount: number,
 ) => {
   if (transaction.type === AccountTransactionTypes.BUY) {
@@ -56,41 +48,37 @@ const validateTransaction = (
 };
 
 const setWalletTransaction = async (
-  transaction: IWalletTransaction,
+  transaction: IWalletTransactionRequest,
 ): Promise<WalletTransaction> => {
-  const dataSource = await getDataSource();
-
   const stock = await getStockByCodAtivo(transaction.codAtivo);
+
+  const client = await clientRepository.getClientById(transaction.codCliente);
 
   const totalTransactionAmount = stock.marketPrice * transaction.qtdeAtivo;
 
-  const client = await clientService.getClientById(transaction.codClient);
-
-  validateTransaction(client, stock, transaction, totalTransactionAmount);
+  validateTransaction(client as Client, stock, transaction, totalTransactionAmount);
 
   const iAccountTransaction = {
-    codClient: transaction.codClient,
     value: totalTransactionAmount,
+    account: client.account,
     type: transaction.type,
   } as IAccountTransaction;
 
-  const accountTransaction = await contaService.setAccountTransaction(iAccountTransaction);
+  const accountTransaction = await contaRepository.setAccountTransaction(iAccountTransaction);
 
-  try {
-    const walletTransaction = new WalletTransaction();
-    walletTransaction.accountTransaction = accountTransaction;
-    walletTransaction.stock = stock;
-    walletTransaction.wallet = client.wallet;
-    walletTransaction.stockMarketPrice = stock.marketPrice;
-    walletTransaction.quantity = transaction.qtdeAtivo;
+  const iWalletTransaction = {
+    quantity: transaction.qtdeAtivo,
+    stockMarketPrice: stock.marketPrice,
+    wallet: client.wallet,
+    stock,
+    accountTransaction,
+  } as IWalletTransaction;
 
-    const newWalletTransaction = await dataSource.manager.save(walletTransaction);
+  const newWalletTransaction = await investimentosRepository.setWalletTransaction(
+    iWalletTransaction,
+  );
 
-    return newWalletTransaction;
-  } catch (error) {
-    console.log(error);
-    throw new HttpError(500, 'Error ao cadastrar transação da carteira.');
-  }
+  return new WalletTransaction(newWalletTransaction);
 };
 
 export default { setWalletTransaction, getStockByCodAtivo };

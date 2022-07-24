@@ -1,19 +1,19 @@
-import getDataSource from '../models/MySqlDataSource';
 import IAccountTransaction from '../interfaces/IAccountTransaction';
 import HttpError from '../shared/HttpError';
-import Client from '../models/entities/Client';
-import AccountTransaction from '../models/entities/AccountTransaction';
-import Account from '../models/entities/Account';
-import Wallet from '../models/entities/Wallet';
 import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
-import clientService from './client.service';
+import clientRepository from '../repository/client.repository';
+import contaRepository from '../repository/conta.repository';
+import Client from '../domain/Client';
+import Wallet from '../domain/Wallet';
+import IAccountTransactionRequest from '../interfaces/IAccountTransactionRequest';
+import IAccount from '../interfaces/IAccount';
 
 const validateTransaction = (
   client: Client,
-  transaction: IAccountTransaction,
+  transaction: IAccountTransactionRequest,
 ) => {
   if (transaction.type === AccountTransactionTypes.DESPOSIT) {
-    if (transaction.value <= 0) {
+    if (transaction.valor <= 0) {
       throw new HttpError(
         400,
         'Não é possivel depositar valor menor ou igual a 0(zero)',
@@ -22,14 +22,14 @@ const validateTransaction = (
   }
 
   if (transaction.type === AccountTransactionTypes.WITHDRAW) {
-    if (transaction.value <= 0) {
+    if (transaction.valor <= 0) {
       throw new HttpError(
         400,
         'Não é possivel sacar valor menor ou igual a 0(zero)',
       );
     }
 
-    if (transaction.value > client.account.balance) {
+    if (transaction.valor > client.account.balance) {
       throw new HttpError(
         400,
         'Saldo insuficiente.',
@@ -39,74 +39,35 @@ const validateTransaction = (
 };
 
 const setAccountTransaction = async (
-  transaction: IAccountTransaction,
-): Promise<AccountTransaction> => {
-  const dataSource = await getDataSource();
+  transaction: IAccountTransactionRequest,
+): Promise<IAccountTransaction> => {
+  const client = await clientRepository.getClientById(transaction.codCliente);
 
-  const client = await clientService.getClientById(transaction.codClient);
+  validateTransaction(client as Client, transaction);
 
-  validateTransaction(client, transaction);
+  const accountTransaction = {
+    value: transaction.valor,
+    account: client.account,
+    type: transaction.type,
+  } as IAccountTransaction;
 
-  try {
-    const accountTransaction = new AccountTransaction();
-    accountTransaction.account = client.account;
-    accountTransaction.value = transaction.value;
-    accountTransaction.type = transaction.type;
+  const newTransaction = await contaRepository.setAccountTransaction(
+    accountTransaction,
+  );
 
-    const newTransaction = await dataSource.manager.save(accountTransaction);
-
-    return newTransaction;
-  } catch (error: any) {
-    throw new HttpError(
-      500,
-      error.message,
-    );
-  }
+  return newTransaction;
 };
 
-const getAccountByCodClient = async (codClient: number): Promise<Account> => {
-  try {
-    const dataSource = await getDataSource();
+const getAccountByCodClient = async (codClient: number): Promise<IAccount> => {
+  const account = await contaRepository.getAccountByCodClient(codClient);
 
-    const client = await dataSource.manager.findOneOrFail(Client, {
-      where: {
-        id: codClient,
-      },
-      relations: {
-        account: true,
-      },
-    });
-
-    return client.account;
-  } catch (error) {
-    console.log(error);
-    throw new HttpError(404, 'Cliente não encontrado para clientId informado.');
-  }
+  return account as IAccount;
 };
 
 const getWalletByCodClient = async (codClient: number): Promise<Wallet> => {
-  try {
-    const dataSource = await getDataSource();
+  const wallet = await contaRepository.getWalletByCodClient(codClient);
 
-    const client = await dataSource.manager.findOneOrFail(Client, {
-      where: {
-        id: codClient,
-      },
-      relations: {
-        wallet: {
-          client: true,
-          walletStocks: {
-            stock: true,
-          },
-        },
-      },
-    });
-
-    return client.wallet;
-  } catch (error) {
-    console.log(error);
-    throw new HttpError(404, 'Cliente não encontrado para clientId informado.');
-  }
+  return new Wallet(wallet);
 };
 
 export default {

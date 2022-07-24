@@ -1,10 +1,12 @@
-import AccountTransactionTypes from '../models/enums/AccountTransactionTypes';
+import IAccount from './IAccount';
 
 interface IAccountTransaction {
-  id?: number,
-  codClient: number,
-  value: number,
-  type: AccountTransactionTypes,
+  id: number;
+  value: number;
+  account: IAccount;
+  type: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export default IAccountTransaction;

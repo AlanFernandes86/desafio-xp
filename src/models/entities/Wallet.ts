@@ -17,7 +17,7 @@ class Wallet extends BaseEntity {
 
   @OneToOne(() => Client)
   @JoinColumn()
-    client?: Client;
+    client!: Client;
 
   @OneToMany(() => WalletTransaction, (walletTransaction) => walletTransaction.wallet)
     walletTransactions?: WalletTransaction[];
@@ -33,18 +33,6 @@ class Wallet extends BaseEntity {
 
   @UpdateDateColumn()
     updatedAt!: Date;
-
-  toGetStocksByCodClientResponse = () => (
-    this.walletStocks.map((walletStock) => (
-      {
-        codClient: this.client?.id,
-        codAtivo: walletStock.stockId,
-        ativo: walletStock.stock,
-        qtdeAtivo: walletStock.quantity,
-        valor: walletStock.stock.marketPrice,
-      }
-    ))
-  );
 }
 
 export default Wallet;

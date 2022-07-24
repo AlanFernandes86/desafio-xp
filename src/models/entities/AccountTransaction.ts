@@ -11,7 +11,7 @@ import Account from './Account';
 @Entity('AccountTransaction')
 class AccountTransaction extends BaseEntity {
   @PrimaryGeneratedColumn()
-    id!: number;
+    id?: number;
 
   @Column({
     type: 'decimal',

@@ -32,6 +32,7 @@
             }
          ]
     },
+    "ignorePatterns": ["tests/**/*", "*.config.ts"],
     "settings": {
         "import/resolver": {
           "node": {

@@ -5,8 +5,8 @@ import {
   ManyToOne, OneToOne,
   JoinColumn,
 } from 'typeorm';
+import IWalletTransaction from '../../interfaces/IWalletTransaction';
 import StringToDecimal from '../../utils/StringToNumberTransformer';
-import AccountTransactionTypes from '../enums/AccountTransactionTypes';
 import AccountTransaction from './AccountTransaction';
 import Stock from './Stock';
 import Wallet from './Wallet';
@@ -58,22 +58,6 @@ export class WalletTransaction extends BaseEntity {
 
   @UpdateDateColumn()
     updatedAt!: Date;
-
-  toBuyAndSellResponse = () => {
-    const oldBalance = this.accountTransaction.account.balance;
-    const transactionValue = this.accountTransaction.value;
-    const transactionType = this.accountTransaction.type;
-    const isBuy = transactionType === AccountTransactionTypes.BUY;
-    return {
-      codClient: this.wallet.client?.id,
-      codAtivo: this.stock.id,
-      quantityTransacted: this.quantity,
-      oldBalance,
-      newBalance: isBuy ? oldBalance - transactionValue : oldBalance + transactionValue,
-      transactionValue,
-      transactionType,
-    };
-  };
 }
 
 export default WalletTransaction;

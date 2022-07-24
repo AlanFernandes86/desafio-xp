@@ -17,13 +17,13 @@ class Stock extends BaseEntity {
     id!: number;
 
   @OneToMany(() => WalletTransaction, (walletTransaction) => walletTransaction.stock)
-    walletTransactions!: WalletTransaction[];
+    walletTransactions?: WalletTransaction[];
 
   @OneToMany(
     () => WalletStock,
     (walletStock) => walletStock.stock,
   )
-    walletStocks!: WalletStock[];
+    walletStocks?: WalletStock[];
 
   @Column()
     codAcao!: string;
@@ -94,7 +94,7 @@ class Stock extends BaseEntity {
     availableQuantity!: number;
 
   @Column()
-    companyLogoUrl?: string;
+    companyLogoUrl!: string;
 
   @CreateDateColumn()
     createdAt!: Date;
