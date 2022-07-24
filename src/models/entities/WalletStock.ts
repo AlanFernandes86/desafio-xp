@@ -2,7 +2,7 @@ import {
   BaseEntity, Entity,
   CreateDateColumn, UpdateDateColumn,
   ManyToOne, Column,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from 'typeorm';
 import StringToDecimal from '../../utils/StringToNumberTransformer';
 import Stock from './Stock';
@@ -10,13 +10,10 @@ import Wallet from './Wallet';
 
 @Entity('WalletStock')
 class WalletStock extends BaseEntity {
-  @PrimaryGeneratedColumn()
-    id?: number;
-
-  @Column()
+  @PrimaryColumn()
     stockId!: number;
 
-  @Column()
+  @PrimaryColumn()
     walletId!: number;
 
   @Column({
