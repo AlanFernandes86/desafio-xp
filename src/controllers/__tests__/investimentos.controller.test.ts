@@ -6,13 +6,14 @@ import app from '../../app';
 import { generateTokenJWT } from '../../utils/JWT';
 import IClient from '../../interfaces/IClient';
 import clientService from '../../services/client.service';
-import investimentosService from '../../services/investimentos.service';
-import Client from '../../domain/Client';
 import AccountTransactionTypes from '../../models/enums/AccountTransactionTypes';
+import contaService from '../../services/conta.service';
+import Client from '../../domain/Client';
 import initializeDatabase from '../../helpers/initializeDatabase';
 import brapApiMock from '../../../tests/brap.api.mock';
+import IAccountTransactionRequest from '../../interfaces/IAccountTransactionRequest';
 
-describe('Testes da camada da conta do cliente', () => {
+describe('Testes da camada de investimentos da aplicação', () => {
   let mockGetDataSource: jest.SpyInstance;
   let mockBrapApi: jest.SpyInstance;
   let newClient: Client;
@@ -38,6 +39,13 @@ describe('Testes da camada da conta do cliente', () => {
     newClient = await clientService.setClient(payload);
     token = generateTokenJWT(newClient.toIClientPayload());
 
+    const deposito = {
+      codCliente: newClient.id,
+      valor: 1000000,
+      type: AccountTransactionTypes.DESPOSIT,
+    } as IAccountTransactionRequest;
+
+    await contaService.setAccountTransaction(deposito);
     await initializeDatabase();
   }, 60000);
 
@@ -48,18 +56,20 @@ describe('Testes da camada da conta do cliente', () => {
   }, 60000);
 
   it(
-    '"/conta/deposito" - Testa se é possível fazer depósito em uma conta.',
+    '"/investimentos/comprar" - Testa se é possível realizar a compra de ativo.',
     (done) => {
       supertest(app)
-        .post('/conta/deposito')
+        .post('/investimentos/comprar')
         .set('Authorization', token)
         .send(
           {
             codCliente: newClient.id,
-            valor: 100000,
+            codAtivo: 10,
+            qtdeAtivo: 1000,
           },
         )
         .then((response: Response) => {
+          expect(response.body.transactionType).toBe('buy');
           expect(response.statusCode).toBe(200);
           done();
         });
@@ -67,18 +77,20 @@ describe('Testes da camada da conta do cliente', () => {
   );
 
   it(
-    '"/conta/saque" - Testa se é possível fazer saque em uma conta.',
+    '"/investimentos/vender" - Testa se é possível realizar a venda de ativo.',
     (done) => {
       supertest(app)
-        .post('/conta/saque')
+        .post('/investimentos/vender')
         .set('Authorization', token)
         .send(
           {
             codCliente: newClient.id,
-            valor: 10000,
+            codAtivo: 10,
+            qtdeAtivo: 1000,
           },
         )
         .then((response: Response) => {
+          expect(response.body.transactionType).toBe('sell');
           expect(response.statusCode).toBe(200);
           done();
         });
@@ -86,65 +98,41 @@ describe('Testes da camada da conta do cliente', () => {
   );
 
   it(
-    '"/conta/:codClient" - Testa se retorna o saldo da conta pelo codCliente.',
+    '"/investimentos/vender" - Testa que não é possível realizar a venda de ativos sem a quantidade na carteira.',
     (done) => {
       supertest(app)
-        .get(`/conta/${newClient.id}`)
+        .post('/investimentos/vender')
         .set('Authorization', token)
+        .send(
+          {
+            codCliente: newClient.id,
+            codAtivo: 10,
+            qtdeAtivo: 1000,
+          },
+        )
         .then((response: Response) => {
-          expect(response.body.balance).toBe(90000);
-          expect(response.statusCode).toBe(200);
+          expect(response.body.message).toBe('Quantidade de ativos na carteira menor que a solitação de venda.');
+          expect(response.statusCode).toBe(400);
           done();
         });
     },
   );
 
   it(
-    '"/conta/ativos/:codClient" - Testa se retorna os ativos do cliente pelo codClient.',
-    (done) => {
-      const request1 = {
-        codCliente: newClient.id!,
-        codAtivo: 10,
-        qtdeAtivo: 200,
-        type: AccountTransactionTypes.BUY,
-      };
-
-      const request2 = {
-        codCliente: newClient.id!,
-        codAtivo: 1,
-        qtdeAtivo: 100,
-        type: AccountTransactionTypes.BUY,
-      };
-
-      investimentosService.setWalletTransaction(request1).then(() => {
-        investimentosService.setWalletTransaction(request2).then(() => {
-          supertest(app)
-            .get(`/conta/ativos/${newClient.id}`)
-            .set('Authorization', token)
-            .then((response: Response) => {
-              expect(response.body.length).toBe(2);
-              expect(response.statusCode).toBe(200);
-              done();
-            });
-        });
-      });
-    },
-  );
-
-  it(
-    '"/conta/saque" - Testa que não é possível fazer saque maior que o saldo em conta.',
+    '"/investimentos/comprar" - Testa que não é possível realizar a compra de mais ativos do que o disponível na corretora.',
     (done) => {
       supertest(app)
-        .post('/conta/saque')
+        .post('/investimentos/comprar')
         .set('Authorization', token)
         .send(
           {
             codCliente: newClient.id,
-            valor: 100000,
+            codAtivo: 1,
+            qtdeAtivo: 100001,
           },
         )
         .then((response: Response) => {
-          expect(response.body.message).toBe('Saldo insuficiente.');
+          expect(response.body.message).toBe('Quantidade de ativos disponiveis para venda na corretora insuficiente.');
           expect(response.statusCode).toBe(400);
           done();
         });

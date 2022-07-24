@@ -9,8 +9,11 @@ import Stock from '../src/models/entities/Stock';
 import AccountTransactionSubscriber from '../src/models/subscribers/AccountTransactionSubscriber';
 import WalletTransactionSubscriber from '../src/models/subscribers/WalletTransactionSubscriber';
 import AccountTransaction from '../src/models/entities/AccountTransaction';
+import initializeDatabase from '../src/helpers/initializeDatabase';
+import 'dotenv/config';
 
 class TestHelper {
+  
   private static _instance: TestHelper;
   private static connection: mysql.Pool;
 
@@ -25,20 +28,22 @@ class TestHelper {
   private dataSource!: DataSource;
 
   async setupTestDB() {
+    const { DB_HOSTNAME, DB_PASSWORD, DB_PORT } = process.env;
+
     TestHelper.connection = mysql.createPool({
-      host: process.env.DB_HOSTNAME,
+      host: DB_HOSTNAME,
       user: 'root',
-      password: process.env.DB_PASSWORD,
+      password: DB_PASSWORD,
     });
 
     await TestHelper.connection.execute("CREATE DATABASE desafioxptest;"); 
 
     this.dataSource = new DataSource({
       type: 'mysql',
-      host: process.env.DB_HOSTNAME,
-      port: Number.parseInt(process.env.DB_PORT || '3306', 10),
+      host: DB_HOSTNAME,
+      port: Number.parseInt(DB_PORT || '3306', 10),
       username: 'root',
-      password: process.env.DB_PASSWORD,
+      password: DB_PASSWORD,
       database: 'desafioxptest',
       entities: [
         Client,
@@ -56,6 +61,8 @@ class TestHelper {
       dropSchema: true,
       synchronize: true,
     });
+
+    await this.dataSource.initialize();
   }
 
   async dropDB() {
