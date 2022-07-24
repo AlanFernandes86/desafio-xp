@@ -1,5 +1,5 @@
 import supertest, { Response } from 'supertest';
-import TestHelper from '../../../tests/TestHelper';
+import TestHelper from '../../../tests/TestHelperSQLite';
 import * as MySqlDataSource from '../../models/MySqlDataSource';
 import * as brapi from '../../data/network/brapi.api';
 import app from '../../app';
@@ -162,6 +162,33 @@ describe('Testes da camada de investimentos da aplicação', () => {
         .set('Authorization', token)
         .then((response: Response) => {
           expect(response.statusCode).toBe(200);
+          done();
+        });
+    },
+  );
+
+  it(
+    '"/investimentos/ativos" - Testa se a rota retorna um json com duas chaves: "purchased" e "available"',
+    (done) => {
+      supertest(app)
+        .get('/investimentos/ativos')
+        .set('Authorization', token)
+        .then((response: Response) => {
+          expect(response.body).toHaveProperty('purchased', 'available');
+          done();
+        });
+    },
+  );
+
+  it(
+    '"/investimentos/ativos" - Testa se na chave "purchased" cada ação possuí a propriedade "walletQuantity"',
+    (done) => {
+      supertest(app)
+        .get('/investimentos/ativos')
+        .set('Authorization', token)
+        .then((response: Response) => {
+          expect(response.body.purchased[0]).toHaveProperty('walletQuantity');
+          expect(response.body.purchased[1]).toHaveProperty('walletQuantity');
           done();
         });
     },
