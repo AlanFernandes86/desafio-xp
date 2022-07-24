@@ -5,5 +5,5 @@ export default (key: string, min?: number): Joi.LanguageMessages => ({
   'number.min': `"${key}" não pode ser menor que ${min}.`,
   'string.base': `"${key}" deve ser uma string.`,
   'string.min': `"${key}" não pode ter menos que ${min} caracteres.`,
-  'any.required': `"${key}" é obrigatório.'`,
+  'any.required': `"${key}" é obrigatório.`,
 });

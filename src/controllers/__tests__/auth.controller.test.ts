@@ -42,7 +42,7 @@ describe('Testes da camada de controller(autenticação) do app', () => {
           {
             name: 'alan Fernandes',
             username: 'usuario',
-            password: 'senha',
+            password: 'senha123',
           },
         )
         .then((response: Response) => {
@@ -57,14 +57,14 @@ describe('Testes da camada de controller(autenticação) do app', () => {
   );
 
   it(
-    '"/auth/login" - Testa se ao efetuar login com credencias corretas retorna um token JWT',
+    '"/auth/login" - Testa se ao efetuar login com credenciais corretas retorna um token JWT',
     (done) => {
       supertest(app)
         .post('/auth/login')
         .send(
           {
             username: 'usuario',
-            password: 'senha',
+            password: 'senha123',
           },
         )
         .then((response: Response) => {
@@ -79,7 +79,7 @@ describe('Testes da camada de controller(autenticação) do app', () => {
   );
 
   it(
-    '"/auth/login" - Testa se ao efetuar login com credencias incorretas não permite acesso',
+    '"/auth/login" - Testa se ao efetuar login com credenciais incorretas não permite acesso',
     (done) => {
       supertest(app)
         .post('/auth/login')
@@ -102,7 +102,7 @@ describe('Testes da camada de controller(autenticação) do app', () => {
   );
 
   it(
-    '"/auth/login" - Testa se ao efetuar login com credencias incorretas vazias ou faltando não permite acesso',
+    '"/auth/login" - Testa se ao efetuar login com credenciais vazias ou faltando não permite acesso',
     (done) => {
       supertest(app)
         .post('/auth/login')
@@ -116,8 +116,8 @@ describe('Testes da camada de controller(autenticação) do app', () => {
           const decode = jwt.decode(token);
 
           expect(decode).toBeNull();
-          expect(response.body.message).toBe('Usuário ou senha inválido.');
-          expect(response.statusCode).toBe(404);
+          expect(response.body.message).toBe('"username" é obrigatório.');
+          expect(response.statusCode).toBe(400);
           done();
         });
     },
