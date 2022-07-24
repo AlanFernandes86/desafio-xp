@@ -1,5 +1,5 @@
 import supertest, { Response } from 'supertest';
-import TestHelper from '../../../tests/TestHelper';
+import TestHelper from '../../../tests/TestHelperSQLite';
 import * as MySqlDataSource from '../../models/MySqlDataSource';
 import * as brapi from '../../data/network/brapi.api';
 import app from '../../app';
