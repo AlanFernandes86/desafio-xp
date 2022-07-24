@@ -181,14 +181,14 @@ describe('Testes da camada de investimentos da aplicação', () => {
   );
 
   it(
-    '"/investimentos/ativos" - Testa se na chave "purchased" cada ação possuí a propriedade "walletQuantity"',
+    '"/investimentos/ativos" - Testa se na chave "purchased" cada ação possuí a propriedade "purchasedQuantity"',
     (done) => {
       supertest(app)
         .get('/investimentos/ativos')
         .set('Authorization', token)
         .then((response: Response) => {
-          expect(response.body.purchased[0]).toHaveProperty('walletQuantity');
-          expect(response.body.purchased[1]).toHaveProperty('walletQuantity');
+          expect(response.body.purchased[0]).toHaveProperty('purchasedQuantity');
+          expect(response.body.purchased[1]).toHaveProperty('purchasedQuantity');
           done();
         });
     },
