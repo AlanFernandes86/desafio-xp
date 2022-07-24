@@ -153,4 +153,17 @@ describe('Testes da camada de investimentos da aplicação', () => {
         });
     },
   );
+
+  it(
+    '"/investimentos/ativos" - Testa se rota retorna status 200.',
+    (done) => {
+      supertest(app)
+        .get('/investimentos/ativos')
+        .set('Authorization', token)
+        .then((response: Response) => {
+          expect(response.statusCode).toBe(200);
+          done();
+        });
+    },
+  );
 });
