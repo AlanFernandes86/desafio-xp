@@ -1,14 +1,15 @@
+/* eslint-disable */
 import { DataSource } from 'typeorm';
 import mysql from 'mysql2/promise';
-import Client from '../src/models/entities/Client';
-import Account from '../src/models/entities/Account';
-import Wallet from '../src/models/entities/Wallet';
-import WalletTransaction from '../src/models/entities/WalletTransaction';
-import WalletStock from '../src/models/entities/WalletStock';
-import Stock from '../src/models/entities/Stock';
-import AccountTransactionSubscriber from '../src/models/subscribers/AccountTransactionSubscriber';
-import WalletTransactionSubscriber from '../src/models/subscribers/WalletTransactionSubscriber';
-import AccountTransaction from '../src/models/entities/AccountTransaction';
+import Client from '../models/entities/Client';
+import Account from '../models/entities/Account';
+import Wallet from '../models/entities/Wallet';
+import WalletTransaction from '../models/entities/WalletTransaction';
+import WalletStock from '../models/entities/WalletStock';
+import Stock from '../models/entities/Stock';
+import AccountTransactionSubscriber from '../models/subscribers/AccountTransactionSubscriber';
+import WalletTransactionSubscriber from '../models/subscribers/WalletTransactionSubscriber';
+import AccountTransaction from '../models/entities/AccountTransaction';
 import 'dotenv/config';
 
 class TestHelper {

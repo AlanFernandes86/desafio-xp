@@ -1,8 +1,8 @@
 import * as MySqlDataSource from '../../models/MySqlDataSource';
 import * as brapi from '../../data/network/brapi.api';
-import TestHelper from '../../../tests/TestHelperSQLite';
+import TestHelper from '../../tests/TestHelperSQLite';
 import initializeDatabase from '../../helpers/initializeDatabase';
-import brapApiMock from '../../../tests/brap.api.mock';
+import brapApiMock from '../../tests/brap.api.mock';
 import investimentosService from '../investimentos.service';
 import WalletStock from '../../models/entities/WalletStock';
 import IClient from '../../interfaces/IClient';

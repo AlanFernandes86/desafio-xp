@@ -1,5 +1,5 @@
 import supertest, { Response } from 'supertest';
-import TestHelper from '../../../tests/TestHelperSQLite';
+import TestHelper from '../../tests/TestHelperSQLite';
 import * as MySqlDataSource from '../../models/MySqlDataSource';
 import * as brapi from '../../data/network/brapi.api';
 import app from '../../app';
@@ -10,7 +10,7 @@ import AccountTransactionTypes from '../../models/enums/AccountTransactionTypes'
 import contaService from '../../services/conta.service';
 import Client from '../../domain/Client';
 import initializeDatabase from '../../helpers/initializeDatabase';
-import brapApiMock from '../../../tests/brap.api.mock';
+import brapApiMock from '../../tests/brap.api.mock';
 import IAccountTransactionRequest from '../../interfaces/IAccountTransactionRequest';
 
 describe('Testes da camada de controller(investimentos) da aplicação', () => {

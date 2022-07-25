@@ -1,5 +1,5 @@
 import axios from 'axios';
-import brapApiMock from '../../../tests/brap.api.mock';
+import brapApiMock from '../../tests/brap.api.mock';
 import stockSymbolList from '../local/stockSymbolList';
 import IApiStock from './IApiStock';
 

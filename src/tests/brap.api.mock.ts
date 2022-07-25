@@ -1,4 +1,5 @@
-import IApiStock from "../src/data/network/IApiStock";
+/* eslint-disable */
+import IApiStock from "../data/network/IApiStock";
 
 export default async (): Promise<IApiStock[]> => {
   return [
