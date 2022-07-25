@@ -1,8 +1,8 @@
 import * as MySqlDataSource from '../../models/MySqlDataSource';
 import * as brapi from '../../data/network/brapi.api';
-import TestHelper from '../../../tests/TestHelperSQLite';
+import TestHelper from '../../tests/TestHelperSQLite';
 import initializeDatabase from '../../helpers/initializeDatabase';
-import brapApiMock from '../../../tests/brap.api.mock';
+import brapApiMock from '../../tests/brap.api.mock';
 import investimentosRepository from '../investimentos.repository';
 
 describe('Testes da camada de repository(investimentos) da aplicação', () => {

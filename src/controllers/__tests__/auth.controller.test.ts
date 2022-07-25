@@ -1,6 +1,6 @@
 import supertest, { Response } from 'supertest';
 import jwt from 'jsonwebtoken';
-import TestHelper from '../../../tests/TestHelperSQLite';
+import TestHelper from '../../tests/TestHelperSQLite';
 import * as MySqlDataSource from '../../models/MySqlDataSource';
 import app from '../../app';
 

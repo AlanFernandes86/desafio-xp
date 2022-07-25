@@ -68,14 +68,14 @@ O aplicativo pode ser executado diretamenta na máquina do usuário** ou atravé
 
 Para ambos os casos será necessário criar um arquivo .env na pasta raiz do projeto com as variáves de ambiente, como exemplo abaixo:
 
-DB_HOSTNAME=localhost
-DB_NAME=desafioxp
-DB_USER=admin
-DB_PASSWORD=123456
-DB_PORT=3306
-PORT=3001
-JWT_SECRET=desafioxp
-UUID_SECRET=2b4c94c9-f377-4893-8bee-f77bcb50e77f
+DB_HOSTNAME=localhost  
+DB_NAME=desafioxp  
+DB_USER=admin  
+DB_PASSWORD=123456  
+DB_PORT=3306  
+PORT=3001  
+JWT_SECRET=desafioxp  
+UUID_SECRET=2b4c94c9-f377-4893-8bee-f77bcb50e77f  
 
 pode ser gerado um novo UUID_SECRET em: 
 https://www.uuidgenerator.net/
@@ -86,13 +86,13 @@ https://www.uuidgenerator.net/
 
 #### Para rodar a aplicação diretamente na máquina:
 
+Instale as dependências do projeto.
 - npm install
 
-Instale as dependências do projeto.
-
-- npm run dev
 
 Executa o projeto em modo de desenvolvimento.
+- npm run dev
+
 
 Obs**. será necessário indicar um banco de dados MySql com a database já criada e seu nome indicado no DB_NAME no arquivo .env somente para o caso de rodar localmente.
 
@@ -288,7 +288,8 @@ A aplicação irá rodar nas portas indicadas no .env.
 
 ###### SAÍDA ESPERADA:
 
-[
+[  
+
 	{
 		"codCliente": 1,
 		"codAtivo": 5,
@@ -311,15 +312,17 @@ A aplicação irá rodar nas portas indicadas no .env.
 		},
 		"qtdeAtivo": 1,
 		"valor": 11.58
-	}
+	}  
+	
 ]
 
 ### GET /investimentos/ativos
 
 ###### SAÍDA ESPERADA:
 
-{
-	"purchased": [
+{  
+
+	"purchased": [  
 		{
 			"id": 5,
 			"codAcao": "AZUL4",
@@ -338,7 +341,8 @@ A aplicação irá rodar nas portas indicadas no .env.
 			"updatedAt": "2022-07-24T23:53:53.000Z",
 			"purchasedQuantity": 1
 		}
-	],
+	],  
+
 	"available": [
 		{
 			"id": 1,
@@ -432,7 +436,7 @@ A aplicação irá rodar nas portas indicadas no .env.
 
 ​		},
 
-​	]
+​	]  
 
 ​	
 
