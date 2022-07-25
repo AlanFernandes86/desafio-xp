@@ -23,6 +23,8 @@ O Azure Web App for Containers para implantar a aplicação com continuous deplo
 
 Para automatização criei uma action no github para que toda vez que minha branch main é atualizada a aplicação automaticamente é dockenizada e atualizada no registro do azure.
 
+Porém não obtive sucesso em fazer a aplicação conectar ao banco de dados do MySql do Azure e funcionar online.
+
 #### Banco de dados relacional - MySQL 
 
 Fiz o diagrama de entidade e relacionamento, me facilita muito na hora de ir desenvolvendo as entidades e  relacionamentos e até mesmo o código da aplicação.
